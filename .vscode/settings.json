@@ -1,0 +1,16 @@
+{
+    "cSpell.words": [
+        "Madysen",
+        "Markus",
+        "oppo",
+        "Pooja",
+        "Rasheda"
+    ],
+
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--disable",
+        "E0611"
+    ]
+}

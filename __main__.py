@@ -30,21 +30,35 @@ roster.add_player('Paul'   , 'm', 'sub', 44)
 
 ### Define Matches
 games = []
-
-game1_1 = ['fs', 29, 93, 38, 23, 9, 25]
-score1_1 = ['R', 1, 2, 'R', 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 14, \
-            'R']
-game1_2 = ['fr', 3, 45, 25, 29, 0, 30]
-score1_2 = [1, 2, 'R', 3, 'R', 4, 5, 6, 'R', 7, 8, 'R', 9, 'R', 10, 'R', 11, 12, 13, 'R', 14, 'R', \
-            15, 16, 'R', 17, 'R']
-game1_3 = ['hs', 45, 0, 9, 93, 38, 23]
-score1_3 = ['R', 1, 'R', 2, 'R', 3, 'R', 4, 'R', 5, 'R']
-
-games.append([game1_1, score1_1])
-games.append([game1_2, score1_2])
+games.append({
+    'match': 1,
+    'game': 1,
+    'full': True,
+    'serve': True,
+    'lineup': [29, 93, 38, 23, 9, 25],
+    'team_scores': ['R', 1, 2, 'R', 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 14, 'R'], #pylint: disable=line-too-long
+    'oppo_scores': [1, 'R', 2, 3, 'R', 4, 5, 6, 7, 8, 'R', 9, 10, 11, 12, 13, 'R', 14, 15, 16, 'R', 17, 18, 19, 'R', 20, 21, 22, 'R', 23, 24, 'R', 25] #pylint: disable=line-too-long
+})
+games.append({
+    'match': 1,
+    'game': 2,
+    'full': True,
+    'serve': False,
+    'lineup': [3, 45, 25, 29, 0, 30],
+    'team_scores': [1, 2, 'R', 3, 'R', 4, 5, 6, 'R', 7, 8, 'R', 9, 'R', 10, 'R', 11, 12, 13, 'R', 14, 'R', 15, 16, 'R', 17, 'R'], #pylint: disable=line-too-long
+    'oppo_scores': [1, 2, 3, 4, 'R', 5, 'R', 6, 7, 8, 9, 10, 'R', 11, 12, 13, 'R', 14, 'R', 15, 'R', 16, 17, 18, 19, 20, 'R', 21, 'R', 22, 23, 'R', 24, 'R', 25] #pylint: disable=line-too-long
+})
+games.append({
+    'match': 1,
+    'game': 3,
+    'full': False,
+    'serve': True,
+    'lineup': [45, 0, 9, 93, 38, 23],
+    'team_scores': ['R', 1, 'R', 2, 'R', 3, 'R', 4, 'R', 5, 'R'], #pylint: disable=line-too-long
+    'oppo_scores': [1, 2, 3, 4, 'R', 5, 'R', 6, 'R', 7, 'R', 8, 9, 10, 11, 12, 13, 'R', 14, 15] #pylint: disable=line-too-long
+})
 
 match1 = VolleyMatch(games)
-match1.add_game([game1_3, score1_3])
 
 match1.calc_match_stats()
 match1.print_player_stats(roster)
