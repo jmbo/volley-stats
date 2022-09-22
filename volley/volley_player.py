@@ -4,15 +4,15 @@ class VolleyRoster(object):
     '''Class representing the volleyball roster.
 
     '''
-    def __init__(self):
+    def __init__(self) -> "VolleyRoster":
         self.players = []
 
-    def add_player(self, name, gender, status, number):
+    def add_player(self, name : str, gender : str, status : str, number : str) -> None:
         '''Adds a volleyball player to the roster.
         '''
         self.players.append(VolleyPlayer(name, gender, status, number))
 
-    def get_player_name(self, number):
+    def get_player_name(self, number : int) -> str:
         '''Finds a player's name from their jersey number.
         '''
         for player in self.players:
@@ -27,7 +27,7 @@ class VolleyPlayer(object):
 
     '''
 
-    def __init__(self, name, gender, status, number):
+    def __init__(self, name : str, gender : str, status : str, number : str) -> None:
         self.name = name
         self.gender = gender
         self.status = status

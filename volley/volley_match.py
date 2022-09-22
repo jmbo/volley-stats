@@ -1,4 +1,7 @@
 '''Volleyball Match module'''
+from typing import List, Dict, Union
+
+from .volley_player import VolleyRoster
 
 class VolleyGame(object):
     '''Class representing a volleyball game keeping stats and records.
@@ -6,16 +9,19 @@ class VolleyGame(object):
     '''
     total_court_pos = 6
 
-    def __init__(self, lineup, team_scores, oppo_scores, serve_start, full):
-        self.lineup= lineup
-        self.team_scores = team_scores
-        self.oppo_scores = oppo_scores
-        self.serve_start = serve_start
-        self.full = full
+    def __init__(self, game : Dict[str, Union[int, bool, List[int], List[Union[str, int]]]]) \
+                                                                                -> "VolleyGame":
+        self.lineup= game['lineup']
+        self.team_scores = game['team_scores']
+        self.oppo_scores = game['oppo_scores']
+        self.serve_start = game['serve']
+        self.full = game['full']
+        self.match = game['match']
+        self.game = game['game']
         self.stats = None
         self.won = None
 
-    def calc_pos_stats(self, lineup_index):
+    def calc_pos_stats(self, lineup_index: int) -> List[List[int]]:
         '''Calculates the plus/minus stats for each position in a game for a starting position in
            the lineup.
 
@@ -38,9 +44,9 @@ class VolleyGame(object):
         pos_stats = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 
         if self.serve_start:
-            index = lineup_index
+            index = self.lineup.index(lineup_index)
         else:
-            index = (lineup_index + 1) % (self.total_court_pos - 1)
+            index = (self.lineup.index(lineup_index) + 1) % (self.total_court_pos - 1)
 
         for score in self.team_scores:
             if isinstance(score, int):
@@ -51,13 +57,13 @@ class VolleyGame(object):
                 raise Exception("unknown item passed in team_scores")
 
         if self.serve_start:
-            index = lineup_index
+            index = self.lineup.index(lineup_index)
         else:
-            index = (lineup_index + 1) % (self.total_court_pos - 1)
+            index = (self.lineup.index(lineup_index) + 1) % (self.total_court_pos - 1)
 
         for score in self.oppo_scores:
             if isinstance(score, int):
-                pos_stats[index][0] -= 1
+                pos_stats[index][1] -= 1
             elif score in ('R', 'r'):
                 index = (index + 1) % (self.total_court_pos - 1)
             else:
@@ -65,7 +71,7 @@ class VolleyGame(object):
 
         return pos_stats
 
-    def calc_game_stats(self):
+    def calc_game_stats(self) -> None:
         '''Calculates game stats for this game.
         '''
         # determine if game was Lost or Won
@@ -77,7 +83,8 @@ class VolleyGame(object):
         # initialize players
         players = {}
         for num in self.lineup:
-            players[num] = {'run': [], 'serves': 0, 'scores': [], 'points': 0}
+            players[num] = {'run': [], 'serves': 0, 'scores': [], 'points': 0,
+                            'pos_stats': self.calc_pos_stats(num)}
 
         # process game scores
         pos = 0
@@ -105,22 +112,27 @@ class VolleyGame(object):
 
         self.stats = players
 
-    def get_game_stats(self):
+    def get_game_stats(self) -> Dict[str, int]:
         '''Gets game stats for this game.
 
             Returns:
                 self.stats -> dict()
-                    keys  : each player's jersey number
-                    values:
+                  keys  : each player's jersey number
+
+                  values:
+
                     'run' = indicates number of successful points for each serve run in this game
+
                     'serves' = indicates total number of serve runs in this game
+
                     'scores' = indicates which score points the player served in
+
                     'points' = indicates total points player served on this game
         '''
         self.calc_game_stats()
         return self.stats
 
-    def get_game_lineup(self):
+    def get_game_lineup(self) -> List[int]:
         '''Gets the game lineup.
 
             Returns:
@@ -132,50 +144,55 @@ class VolleyGame(object):
 class VolleyMatch(object):
     '''Class representing a volleyball match composed of multiple games.
 
-    Methods:
-        add_game(game) : adds a game to the class instance
+        Attributes:
+            games       (list)
+            stats       ()
 
     '''
-    def __init__(self, games=None):
-        self.games = []
+    def __init__(self, games : List[VolleyGame]) -> "VolleyMatch":
+        self.games = games
         self.stats = None
 
-        if games:
-            for game in games:
-                self.add_game(game['lineup'], game['team_scores'], game['oppo_scores'],
-                         game['serve'], game['full'])
-
-    def add_game(self, lineup, team_scores, oppo_scores, serve_start=True, full=True):
+    def add_game(self, game : VolleyGame) -> None:
         '''add_game() adds a game to the class instance.
 
             Params:
                 lineup      (list): list containing starting lineup
+
                 team_scores (list): list containing all points scored by the team as well as when
                     the return to the opposing team was made
+
                 oppo_scores (list): list containing all points score by opposing team as well as
                     when the return to the team was made
+
                 serve_start (bool): indicates whether the team started the serve for this game
+
                 full        (bool): indicates whether this game was played to the end of a reg set
         '''
-        self.games.append(VolleyGame(lineup, team_scores, oppo_scores, serve_start, full))
+        self.games.append(game)
 
-    def calc_match_stats(self):
+    def calc_match_stats(self) -> None:
         '''Calculates match stats.
         '''
         players = {}
 
         for game in self.games:
-            # initialize players
+            # initialize player's plus/minus stats
             lineup = game.get_game_lineup()
             for num in lineup:
-                if num not in players.keys():
-                    players[num] = {'total_match_points': 0, 'total_match_serves': 0, 'games': 0}
+                if num not in players:
+                    players[num] = {'total_match_points': 0,
+                                    'total_match_serves': 0,
+                                    'games': 0,
+                                    'pos_stats': [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]}
 
             # populate player stats from each game
             game_stats = game.get_game_stats()
             for key in game_stats.keys():
                 players[key]['total_match_points'] += game_stats[key]['points']
                 players[key]['total_match_serves'] += game_stats[key]['serves']
+                players[key]['pos_stats'] = [list(map(sum, zip(*n)))
+                            for n in zip(players[key]['pos_stats'], game_stats[key]['pos_stats'])]
                 if game.full:
                     players[key]['games'] += 1
                 else:
@@ -187,7 +204,7 @@ class VolleyMatch(object):
 
         self.stats = players
 
-    def print_player_stats(self, roster):
+    def print_player_stats(self, roster : VolleyRoster) -> None:
         '''Prints a player's stats.
 
             Params:
@@ -197,7 +214,12 @@ class VolleyMatch(object):
         # for key in game.stats.keys():
         #     name = roster.get_player_name(key)
         #     print(f'({key:02d}) {name} {" "*(8-len(name))} => ', game.stats[key])
-        print("---- Name----- =>  Total Games  |  Total Serves  |  Pts/Serve  |  Pts/Game  |")
+        print(" Name ".center(16, '-'), "=>",  # 16
+               "Total Games",          "|",  # 11
+               "Serve Rotations",      "|",  # 15
+               "RB CB LB LF CF RF +/- Stats", "|",  #27
+               "Pts/Serve",            "|",  # 9
+               "Pts/Game",             "|")  # 8
         # sort dictionary by ppg
         stats = dict(sorted(self.stats.items(), key=lambda x:x[1]['ppg'], reverse=True))
 
@@ -205,6 +227,9 @@ class VolleyMatch(object):
             num = item[0]
             player = item[1]
             name = roster.get_player_name(num)
-            print(f"({num:02d}) {name} {' '*(8-len(name))} => ", \
-                  f"{player['games']:12.1f} | {player['total_match_serves']:>14} | " \
-                  f"{player['pps']:11.2f} | {player['ppg']:10.2f} |")
+            print(f"({num:02d}) {name}".ljust(16, ' '), '=>',\
+                  f"{player['games']:11.1f}",            "|",
+                  f"{player['total_match_serves']:>15}", "|",
+                  f"{player['pos_stats']}",              "|",
+                  f"{player['pps']:9.2f}",               "|",
+                  f"{player['ppg']:8.2f}",               "|")
