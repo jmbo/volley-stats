@@ -61,6 +61,7 @@ games.append(VolleyGame({
 match1 = VolleyMatch(games)
 
 gg = games[0]
+print(gg.lineup)
 for num in gg.lineup:
     print(gg.calc_pos_stats(num))
 

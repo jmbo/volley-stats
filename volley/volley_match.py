@@ -46,26 +46,26 @@ class VolleyGame(object):
         if self.serve_start:
             index = self.lineup.index(lineup_index)
         else:
-            index = (self.lineup.index(lineup_index) + 1) % (self.total_court_pos - 1)
+            index = (self.lineup.index(lineup_index) + 1) % self.total_court_pos
 
         for score in self.team_scores:
             if isinstance(score, int):
                 pos_stats[index][0] += 1
             elif score in ('R', 'r'):
-                index = (index + 1) % (self.total_court_pos - 1)
+                index = (index + 1) % self.total_court_pos
             else:
                 raise Exception("unknown item passed in team_scores")
 
         if self.serve_start:
             index = self.lineup.index(lineup_index)
         else:
-            index = (self.lineup.index(lineup_index) + 1) % (self.total_court_pos - 1)
+            index = (self.lineup.index(lineup_index) + 1) % self.total_court_pos
 
         for score in self.oppo_scores:
             if isinstance(score, int):
                 pos_stats[index][1] -= 1
             elif score in ('R', 'r'):
-                index = (index + 1) % (self.total_court_pos - 1)
+                index = (index + 1) % self.total_court_pos
             else:
                 raise Exception("unknown item passed in oppo_scores")
 
