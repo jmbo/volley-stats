@@ -18,7 +18,7 @@ class VolleyGame(object):
         self.full = game['full']
         self.match = game['match']
         self.game = game['game']
-        self.stats = None
+        self.player_stats = {}
         self.won = None
 
     def calc_pos_stats(self, lineup_index: int) -> List[List[int]]:
@@ -26,14 +26,14 @@ class VolleyGame(object):
            the lineup.
 
             Params:
-                lineup_index (int): index of the starting position in the lineup list
+                lineup_index : index of the starting position in the lineup list
             Return:
-                pos_stats   (list): +/- stats for each position the player was on as they rotated
-                    around the court. Each item in the list is a 2 item list where the first item
-                    contains the +points for that player at that position and the second item
-                    contains the -points for that player at that position. The first item on the
-                    list is indicates the RB (Server) position with each next item being the next
-                    (counterclockwise [CCW]) position on the court.
+                pos_stats : +/- stats for each position the player was on as they rotated
+                around the court. Each item in the list is a 2 item list where the first item
+                contains the +points for that player at that position and the second item
+                contains the -points for that player at that position. The first item on the
+                list is indicates the RB (Server) position with each next item being the next
+                (counterclockwise [CCW]) rotation on the court.
         '''
         # #### NET #####
         # [LF, CF, RF]
@@ -78,19 +78,18 @@ class VolleyGame(object):
             self.won = True
 
         # initialize players
-        players = {}
         for num in self.lineup:
-            players[num] = {'run': [], 'serves': 0, 'scores': [], 'points': 0,
-                            'pos_stats': self.calc_pos_stats(num)}
+            self.player_stats[num] = {'run': [], 'serves': 0, 'scores': [], 'points': 0,
+                            'pm_stats': [], 'pos_stats': self.calc_pos_stats(num)}
 
-        # process game scores
+        # calculate all player's scores while they were in the SERVE (RB) position
         pos = 0
         sco = 0
         run = 0
         for score in self.team_scores:
             if score in ('R', 'r'):
-                players[self.lineup[pos % self.total_court_pos]]['run'].append(run)
-                players[self.lineup[pos % self.total_court_pos]]['serves'] += 1
+                self.player_stats[self.lineup[pos % self.total_court_pos]]['run'].append(run)
+                self.player_stats[self.lineup[pos % self.total_court_pos]]['serves'] += 1
                 pos += 1
                 run = 0
             else:
@@ -98,18 +97,28 @@ class VolleyGame(object):
                 run += 1
                 if sco != score:
                     raise Exception("Scoring unmatched or incomplete")
-                players[self.lineup[pos % self.total_court_pos]]['scores'].append(score)
+                self.player_stats[self.lineup[pos % self.total_court_pos]]['scores'].append(score)
 
-        for item in players.items():
+        for item in self.player_stats.items():
             player = item[1]
+
+            # calculate the +/- stats for each player in this game
+            # positive should be the total points scored by the team, negative should be the
+            # score of the opposite team
+            pos_sum = neg_sum = 0
+            for i in player['pos_stats']:
+                pos_sum += i[0]
+                neg_sum += i[1]
+            player['pm_stats'].append(pos_sum)
+            player['pm_stats'].append(neg_sum)
+
+            # calculate number of points player "scored" in the SERVE (RB) position
             if sum(player['run']) != len(player['scores']):
                 raise Exception("Player's scores and point runs do not match")
 
             player['points'] = len(player['scores'])
 
-        self.stats = players
-
-    def get_game_stats(self) -> Dict[str, int]:
+    def get_game_stats(self) -> Dict[int, Union[int, List[Union[int, List[int]]]]]:
         '''Gets game stats for this game.
 
             Returns:
@@ -127,7 +136,7 @@ class VolleyGame(object):
                     'points' = indicates total points player served on this game
         '''
         self.calc_game_stats()
-        return self.stats
+        return self.player_stats
 
     def get_game_lineup(self) -> List[int]:
         '''Gets the game lineup.
@@ -181,6 +190,7 @@ class VolleyMatch(object):
                     players[num] = {'total_match_points': 0,
                                     'total_match_serves': 0,
                                     'games': 0,
+                                    'pm_stats' : [0, 0],
                                     'pos_stats': [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]}
 
             # populate player stats from each game
@@ -189,7 +199,9 @@ class VolleyMatch(object):
                 players[key]['total_match_points'] += game_stats[key]['points']
                 players[key]['total_match_serves'] += game_stats[key]['serves']
                 players[key]['pos_stats'] = [list(map(sum, zip(*n)))
-                            for n in zip(players[key]['pos_stats'], game_stats[key]['pos_stats'])]
+                        for n in zip(players[key]['pos_stats'], game_stats[key]['pos_stats'])]
+                players[key]['pm_stats'] = [p + m
+                        for (p, m) in zip(players[key]['pm_stats'], game_stats[key]['pm_stats'])]
                 if game.full:
                     players[key]['games'] += 1
                 else:
@@ -207,6 +219,16 @@ class VolleyMatch(object):
             Params:
                 roster : VolleyRoster containing all player's info and status.
         '''
+        # helper function to calculate the position percentage
+        def cpp(stat, total):
+            return round((stat / total) * 100)
+        # helper function to pretty print positional stats by percentage
+        def pretty_print_pos_stats(sta, plm):
+            res = ""
+            for i in sta:
+                res += f"+{cpp(i[0], plm[0]):>2}/-{cpp(i[1], plm[1]):<2} "
+            return res[:-1]
+
         # game = self.games[0]
         # for key in game.stats.keys():
         #     name = roster.get_player_name(key)
@@ -214,9 +236,13 @@ class VolleyMatch(object):
         print(" Name ".center(16, '-'), "=>",  # 16
                "Total Games",          "|",  # 11
                "Serve Rotations",      "|",  # 15
-               "RB CB LB LF CF RF +/- Stats", "|",  #27
+               "+/- Stats",            "|",  #9
+               "%".center(47),         "|",  #48
                "Pts/Serve",            "|",  # 9
                "Pts/Game",             "|")  # 8
+        print(f"{' ':>17}  {' ':>13}|{' ':>17}|{' ':>11}|",
+               "  RB      CB      LB      LF      CF      RF    |",
+              f"{' ':>10}|{' ':10}|")
         # sort dictionary by ppg
         stats = dict(sorted(self.stats.items(), key=lambda x:x[1]['ppg'], reverse=True))
 
@@ -224,9 +250,11 @@ class VolleyMatch(object):
             num = item[0]
             player = item[1]
             name = roster.get_player_name(num)
-            print(f"({num:02d}) {name}".ljust(16, ' '), '=>',\
-                  f"{player['games']:11.1f}",            "|",
-                  f"{player['total_match_serves']:>15}", "|",
-                  f"{player['pos_stats']}",              "|",
-                  f"{player['pps']:9.2f}",               "|",
-                  f"{player['ppg']:8.2f}",               "|")
+            print(f"({num:02d}) {name}".ljust(16, ' '),                                 '=>',
+                  f"{player['games']:11.1f}",                                           "|",
+                  f"{player['total_match_serves']:>15}",                                "|",
+                  f"+{player['pm_stats'][0]:>3}/-{abs(player['pm_stats'][1]):<3}",      "|",
+                #   f"{player['pos_stats']}",                                             "|",
+                  f"{pretty_print_pos_stats(player['pos_stats'], player['pm_stats'])}", "|",
+                  f"{player['pps']:9.2f}",                                              "|",
+                  f"{player['ppg']:8.2f}",                                              "|")
