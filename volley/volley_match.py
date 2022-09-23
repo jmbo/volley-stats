@@ -48,7 +48,7 @@ class VolleyGame(object):
         for score in self.team_scores:
             if isinstance(score, int):
                 pos_stats[index][0] += 1
-            elif score in ('R', 'r'):
+            elif score in ('R', 'r', 'X', 'x'):
                 index = (index + 1) % self.total_court_pos
             else:
                 raise Exception("unknown item passed in team_scores")
@@ -61,7 +61,7 @@ class VolleyGame(object):
         for score in self.oppo_scores:
             if isinstance(score, int):
                 pos_stats[index][1] -= 1
-            elif score in ('R', 'r'):
+            elif score in ('R', 'r', 'X', 'x'):
                 index = (index + 1) % self.total_court_pos
             else:
                 raise Exception("unknown item passed in oppo_scores")
@@ -83,11 +83,12 @@ class VolleyGame(object):
                             'pm_stats': [], 'pos_stats': self.calc_pos_stats(num)}
 
         # calculate all player's scores while they were in the SERVE (RB) position
+        # FIXME: is there a BUG attributing the first point after each rotation to the correct pos?
         pos = 0
         sco = 0
         run = 0
         for score in self.team_scores:
-            if score in ('R', 'r'):
+            if score in ('R', 'r', 'X', 'x'):
                 self.player_stats[self.lineup[pos % self.total_court_pos]]['run'].append(run)
                 self.player_stats[self.lineup[pos % self.total_court_pos]]['serves'] += 1
                 pos += 1
