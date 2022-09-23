@@ -43,11 +43,8 @@ class VolleyGame(object):
         # represents [points scored by the team, points lost by the team]
         pos_stats = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 
-        if self.serve_start:
-            index = self.lineup.index(lineup_index)
-        else:
-            index = (self.lineup.index(lineup_index) + 1) % self.total_court_pos
-
+        # calculate the positive stats
+        index = (self.total_court_pos - self.lineup.index(lineup_index)) % self.total_court_pos
         for score in self.team_scores:
             if isinstance(score, int):
                 pos_stats[index][0] += 1
@@ -56,10 +53,10 @@ class VolleyGame(object):
             else:
                 raise Exception("unknown item passed in team_scores")
 
-        if self.serve_start:
-            index = self.lineup.index(lineup_index)
-        else:
-            index = (self.lineup.index(lineup_index) + 1) % self.total_court_pos
+        # calculate the negative stats
+        index = (self.total_court_pos - self.lineup.index(lineup_index)) % self.total_court_pos
+        if not self.serve_start:
+            index = (index - 1) % self.total_court_pos
 
         for score in self.oppo_scores:
             if isinstance(score, int):

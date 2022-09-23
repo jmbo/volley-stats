@@ -60,10 +60,11 @@ games.append(VolleyGame({
 
 match1 = VolleyMatch(games)
 
-gg = games[0]
-print(gg.lineup)
-for num in gg.lineup:
-    print(gg.calc_pos_stats(num))
+# for gg in games:
+#     print(gg.lineup)
+#     for num in gg.lineup:
+#         if (num == 25):
+#             print(gg.calc_pos_stats(num))
 
 match1.calc_match_stats()
 match1.print_player_stats(roster)
