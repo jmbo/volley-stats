@@ -44,10 +44,16 @@ class VolleyGame(object):
         pos_stats = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 
         # calculate the positive stats
+        # FIXME: is there a BUG attributing the first point after each rotation to the correct pos?
+        prev = None
         index = (self.total_court_pos - self.lineup.index(lineup_index)) % self.total_court_pos
         for score in self.team_scores:
+            prev = score
             if isinstance(score, int):
-                pos_stats[index][0] += 1
+                if prev in ('R', 'r') or (not self.serve_start and score == 1):
+                    pos_stats[(index - 1) % self.total_court_pos][0] += 1
+                else:
+                    pos_stats[index][0] += 1
             elif score in ('R', 'r', 'X', 'x'):
                 index = (index + 1) % self.total_court_pos
             else:
@@ -83,7 +89,6 @@ class VolleyGame(object):
                             'pm_stats': [], 'pos_stats': self.calc_pos_stats(num)}
 
         # calculate all player's scores while they were in the SERVE (RB) position
-        # FIXME: is there a BUG attributing the first point after each rotation to the correct pos?
         pos = 0
         sco = 0
         run = 0
@@ -222,7 +227,8 @@ class VolleyMatch(object):
         '''
         # helper function to calculate the position percentage
         def cpp(stat, total):
-            return round((stat / total) * 100)
+            # return round((stat / total) * 100)
+            return stat
         # helper function to pretty print positional stats by percentage
         def pretty_print_pos_stats(sta, plm):
             res = ""
