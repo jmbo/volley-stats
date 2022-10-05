@@ -21,46 +21,52 @@ class VolleyGame(object):
         self.player_stats = {}
         self.won = None
 
-    def calc_pos_stats(self, lineup_index: int) -> List[List[int]]:
+    def calc_pos_stats(self, num: int) -> List[List[int]]:
         '''Calculates the plus/minus stats for each position in a game for a starting position in
            the lineup.
 
             Params:
-                lineup_index : index of the starting position in the lineup list
+                num : value of player's jersey's number as it is found on the lineup.
             Return:
                 pos_stats : +/- stats for each position the player was on as they rotated
                 around the court. Each item in the list is a 2 item list where the first item
                 contains the +points for that player at that position and the second item
                 contains the -points for that player at that position. The first item on the
                 list is indicates the RB (Server) position with each next item being the next
-                (counterclockwise [CCW]) rotation on the court.
+                (clockwise [CW]) rotation of the num player.
         '''
         # #### NET #####
-        # [LF, CF, RF]
+        # [LF, CF, RF]   ==> [RB, CB, LB, LF, CF, RF]
         # [LB, CB, RB]
 
-        # initializing pos stats starting with RB and ending with CB -- each item in the list
+        # initializing pos stats starting with RB and ending with RF -- each item in the list
         # represents [points scored by the team, points lost by the team]
         pos_stats = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 
         # calculate the positive stats
         # FIXME: is there a BUG attributing the first point after each rotation to the correct pos?
         prev = None
-        index = (self.total_court_pos - self.lineup.index(lineup_index)) % self.total_court_pos
+        index = (self.total_court_pos - self.lineup.index(num)) % self.total_court_pos
         for score in self.team_scores:
-            prev = score
             if isinstance(score, int):
-                if prev in ('R', 'r') or (not self.serve_start and score == 1):
+                if (not self.serve_start and score == 1):
                     pos_stats[(index - 1) % self.total_court_pos][0] += 1
                 else:
                     pos_stats[index][0] += 1
             elif score in ('R', 'r', 'X', 'x'):
-                index = (index + 1) % self.total_court_pos
+                # index = (index - 1) % self.total_court_pos
+                pass
             else:
                 raise Exception("unknown item passed in team_scores")
+            # player first scores point in current position and then team rotates... therefore,
+            # there's a delay of 1
+            if prev in ('R', 'r', 'X', 'x'):
+                index = (index + 1) % self.total_court_pos
+
+            prev = score
 
         # calculate the negative stats
-        index = (self.total_court_pos - self.lineup.index(lineup_index)) % self.total_court_pos
+        index = (self.total_court_pos - self.lineup.index(num)) % self.total_court_pos
         if not self.serve_start:
             index = (index - 1) % self.total_court_pos
 
@@ -84,9 +90,13 @@ class VolleyGame(object):
             self.won = True
 
         # initialize players
+        ## TODO: calc pos stats only once and the shift the array for the rest of the lineup
         for num in self.lineup:
+            pos_stats = self.calc_pos_stats(num)
             self.player_stats[num] = {'run': [], 'serves': 0, 'scores': [], 'points': 0,
-                            'pm_stats': [], 'pos_stats': self.calc_pos_stats(num)}
+                            'pm_stats': [], 'pos_stats': pos_stats,
+                            'fr_stats': [x1 + x2 + x3 for (x1, x2, x3) in zip(*pos_stats[3:])],
+                            'br_stats': [x1 + x2 + x3 for (x1, x2, x3) in zip(*pos_stats[:3])] }
 
         # calculate all player's scores while they were in the SERVE (RB) position
         pos = 0
@@ -197,6 +207,8 @@ class VolleyMatch(object):
                                     'total_match_serves': 0,
                                     'games': 0,
                                     'pm_stats' : [0, 0],
+                                    'fr_stats' : [0, 0],
+                                    'br_stats' : [0, 0],
                                     'pos_stats': [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]}
 
             # populate player stats from each game
@@ -206,8 +218,12 @@ class VolleyMatch(object):
                 players[key]['total_match_serves'] += game_stats[key]['serves']
                 players[key]['pos_stats'] = [list(map(sum, zip(*n)))
                         for n in zip(players[key]['pos_stats'], game_stats[key]['pos_stats'])]
-                players[key]['pm_stats'] = [p + m
-                        for (p, m) in zip(players[key]['pm_stats'], game_stats[key]['pm_stats'])]
+                players[key]['pm_stats'] = [x1 + x2
+                        for (x1, x2) in zip(players[key]['pm_stats'], game_stats[key]['pm_stats'])]
+                players[key]['fr_stats'] = [x1 + x2
+                        for (x1, x2) in zip(players[key]['fr_stats'], game_stats[key]['fr_stats'])]
+                players[key]['br_stats'] = [x1 + x2
+                        for (x1, x2) in zip(players[key]['br_stats'], game_stats[key]['br_stats'])]
                 if game.full:
                     players[key]['games'] += 1
                 else:
@@ -227,13 +243,15 @@ class VolleyMatch(object):
         '''
         # helper function to calculate the position percentage
         def cpp(stat, total):
-            # return round((stat / total) * 100)
-            return stat
+            return round((stat * 100/ total))
+            # return stat
         # helper function to pretty print positional stats by percentage
+        def pretty_print_stats(sta, plm):
+            return f"+{cpp(sta[0], plm[0]):>2}/-{abs(cpp(sta[1], plm[1])):<2}"
         def pretty_print_pos_stats(sta, plm):
             res = ""
             for i in sta:
-                res += f"+{cpp(i[0], plm[0]):>2}/-{cpp(i[1], plm[1]):<2} "
+                res += f"+{cpp(i[0], plm[0]):>2}/-{abs(cpp(i[1], plm[1])):<2} "
             return res[:-1]
 
         # game = self.games[0]
@@ -243,13 +261,15 @@ class VolleyMatch(object):
         print(" Name ".center(16, '-'), "=>",  # 16
                "Total Games",          "|",  # 11
                "Serve Rotations",      "|",  # 15
-               "+/- Stats",            "|",  #9
-               "%".center(47),         "|",  #48
+               "+/- Stats",            "|",  # 9
+               "% (Normalized)".center(47), "|",  #48
+               "% (Normalized)".center(17),         "|",  # 9
+            #    "BR".center(8),         "|",  # 9
                "Pts/Serve",            "|",  # 9
                "Pts/Game",             "|")  # 8
         print(f"{' ':>17}  {' ':>13}|{' ':>17}|{' ':>11}|",
                "  RB      CB      LB      LF      CF      RF    |",
-              f"{' ':>10}|{' ':10}|")
+              "BR".center(7), "|", "FR".center(7), "|", f"{' ':>10}|{' ':10}|")
         # sort dictionary by ppg
         stats = dict(sorted(self.stats.items(), key=lambda x:x[1]['ppg'], reverse=True))
 
@@ -263,5 +283,7 @@ class VolleyMatch(object):
                   f"+{player['pm_stats'][0]:>3}/-{abs(player['pm_stats'][1]):<3}",      "|",
                 #   f"{player['pos_stats']}",                                             "|",
                   f"{pretty_print_pos_stats(player['pos_stats'], player['pm_stats'])}", "|",
+                  f"{pretty_print_stats(player['br_stats'], player['pm_stats'])}",      "|",
+                  f"{pretty_print_stats(player['fr_stats'], player['pm_stats'])}",      "|",
                   f"{player['pps']:9.2f}",                                              "|",
                   f"{player['ppg']:8.2f}",                                              "|")
