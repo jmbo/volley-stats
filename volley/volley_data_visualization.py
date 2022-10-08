@@ -6,6 +6,7 @@ from typing import List, Set, Dict, Tuple, Union
 
 class VolleyCourt(object):
 
+    # bunch o ratios based on image size
     court_size_ratio       = .75
     circle_size_ratio      = .125
     font_size_ratio        = .025
@@ -32,21 +33,21 @@ class VolleyCourt(object):
     data_red_rgb   = (255, 0, 0, 100)
 
     def __init__(self, size: int) -> None:
-        # self.court_diagram = Image.open(image_path)
-        # self.imgsize = self.court_diagram.height
+
+        # size is a determining factor for almost all drawable elements
         self.imgsize = size
+        # base Image object is a blank fully transparent image
         self.court_diagram = Image.new('RGBA',size = (self.imgsize, self.imgsize), color = (255,255,255,0))
         self.draw = ImageDraw.Draw(self.court_diagram)
         self.courtsize = self.imgsize * self.court_size_ratio
         self.pole_size = self.imgsize * self.pole_size_ratio
         self.circle_size = int(self.circle_size_ratio * self.imgsize)
-        # self.draw = ImageDraw.Draw(self.court_diagram)
         self.font_size = int(self.font_size_ratio * self.imgsize) 
         self.font = ImageFont.truetype("arial.ttf", size = self.font_size)
         self.label_font_size = int(self.label_font_size_ratio * self.imgsize) 
         self.label_font = ImageFont.truetype("arial.ttf", size = self.label_font_size)
-        # self.background = Image.new('RGBA',size = (self.imgsize, self.imgsize), color = (255,255,255,255))
 
+        # lots of x,y cooridinates canb be calculated from ratios now
         self.court_start_xy  = tuple([int(self.imgsize * x) for x in self.court_start_xy_ratios])
         self.left_pole_xy    = tuple([int(self.imgsize * x) for x in self.left_pole_xy_ratios])
         self.right_pole_xy   = tuple([int(self.imgsize * x) for x in self.right_pole_xy_ratios])
@@ -59,37 +60,47 @@ class VolleyCourt(object):
         self.back_center_xy  = tuple([int(self.imgsize * x) for x in self.back_center_xy_ratios])
         self.back_right_xy   = tuple([int(self.imgsize * x) for x in self.back_right_xy_ratios])
 
-        
+        # court positions in rotation order, starting first with serving position
+        self.court_positions_xy_list = [self.back_right_xy, self.back_center_xy, self.back_left_xy, 
+                                        self.front_left_xy, self.front_center_xy,self.front_right_xy]
+
+        # draw the basic elements of the court
         self.draw_court()
 
-    def draw_court(self):
+    def draw_court(self) -> None:
+        #break out self variables into nicer names
+        court_start_x, court_start_y = self.court_start_xy
+        left_pole_x, left_pole_y = self.left_pole_xy
+        right_pole_x, right_pole_y = self.right_pole_xy
         # draw the main court square
         self.draw_rectangle(self.court_start_xy, self.courtsize, width = 8)
 
         # draw the 10ft line
-        self.draw.line((self.court_start_xy[0] , self.court_start_xy[1] + self.courtsize // 3,
-                        self.court_start_xy[0] + self.courtsize, self.court_start_xy[1] + self.courtsize // 3 ),
+        self.draw.line((court_start_x, court_start_y + self.courtsize // 3,
+                        court_start_x + self.courtsize, court_start_y + self.courtsize // 3 ),
                         fill = "black",
                         width = 5)
         
         # draw the net line 
-        # need to adjust the x and y to cover the lines of
-        self.draw.line((self.left_pole_xy[0] , self.left_pole_xy[1] + 4,
-                        self.right_pole_xy[0] , self.right_pole_xy[1] + 4),
+        # need to adjust the x and y to cover the pixel width of the main rectangle lines
+        self.draw.line((left_pole_x, left_pole_y + 4,
+                        right_pole_x, left_pole_y + 4),
                         fill = "black",
                         width = 12)
 
         # draw the net circles
-        self.draw_circle((self.left_pole_xy[0],self.left_pole_xy[1] + 4),  self.pole_size, fill="black")
-        self.draw_circle((self.right_pole_xy[0],self.right_pole_xy[1] + 4),  self.pole_size, fill="black")
+        self.draw_circle((left_pole_x, left_pole_y + 4),  self.pole_size, fill="black")
+        self.draw_circle((right_pole_x, right_pole_y + 4),  self.pole_size, fill="black")
 
         # label the net
         label = "Net"
         w, h = self.draw.textsize(label, font = self.label_font)
-        self.draw.text(((self.imgsize - w) / 2, self.court_start_xy[1] - (h*1.25) ), "Net", font=self.label_font, fill = 'black')
+        self.draw.text(((self.imgsize - w) / 2, court_start_y - (h*1.25) ), "Net", font=self.label_font, fill = 'black')
         
 
     def export(self, filename: str) -> None:
+        # save the image to a file
+        # this is down by "pasting the court onto a white background and maintaining its opacity settings"
         background = Image.new('RGBA',size = (self.imgsize, self.imgsize), color = (255,255,255,255))
         background.paste(self.court_diagram, (0,0), self.court_diagram)
         background.save(filename)
@@ -102,9 +113,6 @@ class VolleyCourt(object):
     def draw_rectangle(self, coords: Tuple[int,int], size: int, width: int) -> None:
         x, y = coords
         self.draw.rectangle( (x, y, x + size, y + size), outline = "black", fill = None, width = width)
-
-    def draw_line(self, coords: Tuple[int,int], length: int, width: int):
-        self.draw.line((125,size-1200-100 + 4, size-100,size-1200-100+4 ), fill = "black", width = 12)
     
     def draw_circle(self, coords: Tuple[int,int], size: int, fill: Union[Tuple[int,int,int,int],str]) -> None:
         x, y = coords
@@ -123,50 +131,47 @@ class VolleyCourt(object):
         self.draw.chord((x - radius, y - radius, x + radius, y + radius), 270, 90, fill)    
 
     def draw_data_circle(self, coords: Tuple[int,int], size: int, plus_value: int, minus_value: int) -> None:
-        self.draw_semicircle_left(  coords, size = size, fill = (0, 255, 0, 100))
-        self.draw_semicircle_right( coords, size = size, fill = (255, 0, 0, 100))
+        self.draw_semicircle_left(  coords, size = size, fill = self.data_green_rgb)
+        self.draw_semicircle_right( coords, size = size, fill = self.data_red_rgb)
         self.draw.text(self.get_text_coords(coords, self.positive_text_offset_ratios) , f"{plus_value:>2}%",  font=self.font, fill = 'black')
         self.draw.text(self.get_text_coords(coords, self.negative_text_offset_ratios) , f"{minus_value:>2}%", font=self.font, fill = 'black')
 
 
-    def get_text_coords(self, circle_coords: Tuple[int,int], text_offset_ratios: Tuple[int,int]):
-        return (circle_coords[0] + (text_offset_ratios[0] * self.imgsize),
-                circle_coords[1] + (text_offset_ratios[1] * self.imgsize))
+    def get_text_coords(self, circle_coords: Tuple[int,int], text_offset_ratios: Tuple[int,int]) -> Tuple[int,int]:
+        circle_x, circle_y = circle_coords
+        text_offset_ratio_x, text_offset_ratio_y = text_offset_ratios
+        return (circle_x + (text_offset_ratio_x * self.imgsize),
+                circle_y + (text_offset_ratio_y * self.imgsize))
 
-    def populate_image(self, data):
-        # self.draw_circle( self.front_left_xy,   self.circle_size, fill = (0, 255, 0, 100))
-        # self.draw_circle( self.front_center_xy, self.circle_size, fill = (0, 255, 0, 100))
-        # self.draw_circle( self.front_right_xy,  self.circle_size, fill = (0, 255, 0, 100))
+    def populate_image(self, data) -> None:
+        # draw the label for the player name and number 
+        self.draw.text((0,0) , f"{data['player']}, {data['number']}", font=self.label_font, fill = 'black')
 
-        # self.draw_circle(self.draw, back_left_xy,    self.circle_size, fill = (0, 255, 0, 100))
-        # self.draw_circle(self.draw, back_middle_xy,  self.circle_size, fill = (0, 255, 0, 100))
+        # break out the stats into nice variables 
+        total_plus,total_minus = data['pm_stats']
+        pos_stats_percentages = [(int(round(plus / total_plus,2) * 100),
+                                  int(round(minus / total_minus,2) * 100)) 
+                                  for (plus, minus) in data['pos_stats'] 
+                                ]
 
-        example =  15
 
-        self.draw_data_circle( self.front_left_xy ,   self.circle_size, example, example)
-        self.draw_data_circle( self.front_center_xy , self.circle_size, example, example)
-        self.draw_data_circle( self.front_right_xy ,  self.circle_size, example, example)
+        for ((plus,minus), court_pos_xy) in zip(pos_stats_percentages, self.court_positions_xy_list):
+            self.draw_data_circle( court_pos_xy, self.circle_size, plus, minus)
+
+        # self.draw_data_circle( self.front_left_xy ,   self.circle_size, example, example)
+        # self.draw_data_circle( self.front_center_xy , self.circle_size, example, example)
+        # self.draw_data_circle( self.front_right_xy ,  self.circle_size, example, example)
         
-        self.draw_data_circle( self.back_left_xy ,   self.circle_size, example, example)
-        self.draw_data_circle( self.back_center_xy , self.circle_size, example, example)
-        self.draw_data_circle( self.back_right_xy ,  self.circle_size, example, example)
+        # self.draw_data_circle( self.back_left_xy ,   self.circle_size, example, example)
+        # self.draw_data_circle( self.back_center_xy , self.circle_size, example, example)
+        # self.draw_data_circle( self.back_right_xy ,  self.circle_size, example, example)
 
 
-        
-        self.draw_semicircle_right( self.back_right_xy, size = self.circle_size,fill = (255, 0, 0, 100))
-        self.draw_semicircle_left( self.back_right_xy, size = self.circle_size,fill = (0, 255, 0, 100))
-
-        # get_left_text_coords
-        # draw.text((back_right_xy[0] + 5, back_right_xy[1] - 10) , f"{thirty:>2}%", font=font, fill = 'black')
-        # draw.text((back_right_xy[0] -45, back_right_xy[1] - 10) , f"{one:>2}%", font=font, fill = 'black')
-        self.draw.text(self.get_text_coords(self.back_right_xy, self.positive_text_offset_ratios) , f"{example:>2}%", font=self.font, fill = 'black')
-        self.draw.text(self.get_text_coords(self.back_right_xy, self.negative_text_offset_ratios) , f"{example:>2}%", font=self.font, fill = 'black')
-
-
+        #TODO: make draw Helper class
 # x1 y1 x2 y2
 
 size = 1600
-data = {'player': 'player', 'num': '??', 'total_match_points': 1, 'total_match_serves': 2, 'games': 1, 'pm_stats': [14, -25], 'pos_stats': [[1, -4], [3, -4], [4, -6], [1, -5], [3, -3], [2, -3]], 'ppg': 1.0, 'pps': 0.5}
+data = {'player': 'player', 'number': '??', 'total_match_points': 1, 'total_match_serves': 2, 'games': 1, 'pm_stats': [14, -25], 'pos_stats': [[1, -4], [3, -4], [4, -6], [1, -5], [3, -3], [2, -3]], 'ppg': 1.0, 'pps': 0.5}
 
 court = VolleyCourt(size)
 court.populate_image(data)
