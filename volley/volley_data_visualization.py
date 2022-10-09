@@ -8,7 +8,7 @@ class VolleyCourt(object):
 
     # bunch o ratios based on image size
     court_size_ratio       = .75
-    circle_size_ratio      = .125
+    circle_size_ratio      = .1
     font_size_ratio        = .025
     label_font_size_ratio  = .075
     net_length_ratio       = .875
@@ -119,7 +119,6 @@ class VolleyCourt(object):
         radius = size // 2
         self.draw.ellipse( (x - radius, y - radius, x + radius, y + radius), fill)
     
-
     def draw_semicircle_left(self, coords: Tuple[int,int], size: int, fill: Tuple[int,int,int,int]) -> None:
         x, y = coords
         radius = size // 2
@@ -130,9 +129,9 @@ class VolleyCourt(object):
         radius = size // 2
         self.draw.chord((x - radius, y - radius, x + radius, y + radius), 270, 90, fill)    
 
-    def draw_data_circle(self, coords: Tuple[int,int], size: int, plus_value: int, minus_value: int) -> None:
-        self.draw_semicircle_left(  coords, size = size, fill = self.data_green_rgb)
-        self.draw_semicircle_right( coords, size = size, fill = self.data_red_rgb)
+    def draw_data_circles(self, coords: Tuple[int,int], plus_circle_size: int, minus_circle_size: int, plus_value: int, minus_value: int) -> None:
+        self.draw_semicircle_left(  coords, size = plus_circle_size, fill = self.data_green_rgb)
+        self.draw_semicircle_right( coords, size = minus_circle_size, fill = self.data_red_rgb)
         self.draw.text(self.get_text_coords(coords, self.positive_text_offset_ratios) , f"{plus_value:>2}%",  font=self.font, fill = 'black')
         self.draw.text(self.get_text_coords(coords, self.negative_text_offset_ratios) , f"{minus_value:>2}%", font=self.font, fill = 'black')
 
@@ -154,20 +153,42 @@ class VolleyCourt(object):
                                   for (plus, minus) in data['pos_stats'] 
                                 ]
 
+        # figure out the maximum plus value,
+        #   this is used to determine the apropriate size of the data visualizatuion circle
+        max_plus = 0
+        max_minus = 0
 
-        for ((plus,minus), court_pos_xy) in zip(pos_stats_percentages, self.court_positions_xy_list):
-            self.draw_data_circle( court_pos_xy, self.circle_size, plus, minus)
+        for plus,minus in data['pos_stats']:
+            if plus > max_plus:
+                max_plus = plus
+            if minus < max_minus:
+                max_minus = minus
 
-        # self.draw_data_circle( self.front_left_xy ,   self.circle_size, example, example)
-        # self.draw_data_circle( self.front_center_xy , self.circle_size, example, example)
-        # self.draw_data_circle( self.front_right_xy ,  self.circle_size, example, example)
-        
-        # self.draw_data_circle( self.back_left_xy ,   self.circle_size, example, example)
-        # self.draw_data_circle( self.back_center_xy , self.circle_size, example, example)
-        # self.draw_data_circle( self.back_right_xy ,  self.circle_size, example, example)
+        max_plus_percent  = int(round(max_plus / total_plus,2) * 100)
+        max_minus_percent = int(round(max_minus / total_minus,2) * 100)
+
+        # iterate through each plus minus data point and its corresponding position
+        for ((plus_percent,minus_percent), court_pos_xy) in zip(pos_stats_percentages, self.court_positions_xy_list):
+            plus_circle_size  = self.circle_size * (.5 + (plus_percent / max_plus_percent) ) 
+            minus_circle_size = self.circle_size * (.5 + (minus_percent / max_minus_percent) ) 
+            self.draw_data_circles( court_pos_xy, plus_circle_size, minus_circle_size, plus_percent, minus_percent)
+
+        # test circle coord ratios     
+        # middle_left_xy_ratios   = (.275, .55)
+        # middle_center_xy_ratios = (.5,   .55)
+        # middle_right_xy_ratios  = (.725, .55)
+
+        # test circle
+        # self.draw_semicircle_left(  tuple([int(self.imgsize * x) for x in middle_left_xy_ratios]), size = self.circle_size*1.3, fill = self.data_green_rgb)
+        # self.draw_semicircle_right( tuple([int(self.imgsize * x) for x in middle_left_xy_ratios]), size = self.circle_size*.5, fill = self.data_red_rgb)
+
+        # self.draw_semicircle_left(  tuple([int(self.imgsize * x) for x in middle_center_xy_ratios]), size = self.circle_size*1.4, fill = self.data_green_rgb)
+        # self.draw_semicircle_right( tuple([int(self.imgsize * x) for x in middle_center_xy_ratios]), size = self.circle_size*.6, fill = self.data_red_rgb)
+
+        # self.draw_semicircle_left(  tuple([int(self.imgsize * x) for x in middle_right_xy_ratios]), size = self.circle_size*1.5, fill = self.data_green_rgb)
+        # self.draw_semicircle_right( tuple([int(self.imgsize * x) for x in middle_right_xy_ratios]), size = self.circle_size*.5, fill = self.data_red_rgb)
 
 
-        #TODO: make draw Helper class
 # x1 y1 x2 y2
 
 size = 1600
