@@ -287,3 +287,14 @@ class VolleyMatch(object):
                   f"{pretty_print_stats(player['fr_stats'], player['pm_stats'])}",      "|",
                   f"{player['pps']:9.2f}",                                              "|",
                   f"{player['ppg']:8.2f}",                                              "|")
+
+class VolleySeason(object):
+    '''Class representing a volleyball season composed of multiple matches.
+
+        Attributes:
+            games       (list)
+            stats       ()
+
+    '''
+    def __init__(self):
+        pass
