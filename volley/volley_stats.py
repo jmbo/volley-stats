@@ -16,6 +16,7 @@ class PlayerStats():
 
         self.rb_pm = self.rf_pm = self.cf_pm = [0, 0]
         self.lf_pm = self.lb_pm = self.cb_pm = [0, 0]
+        self._rotation_pm = [self.rb_pm, self.rf_pm, self.cf_pm, self.lf_pm, self.lb_pm, self.cb_pm]
 
         self.front_row_pm = self.back_row_pm = self.pm_stats = [0, 0]
 
@@ -25,6 +26,9 @@ class PlayerStats():
 
         self.total_serve_points = 0
         self.total_games_played = 0
+
+        self.points_per_game  = 0
+        self.points_per_serve = 0
 
     def __add__(self, other: "PlayerStats") -> "PlayerStats":
 
@@ -36,6 +40,7 @@ class PlayerStats():
 
         obj = PlayerStats(self.jersey_num)
 
+        # TODO: try sum instead of add....
         obj.rb_pm = list(map(add, self.rb_pm, other.rb_pm))
         obj.rf_pm = list(map(add, self.rf_pm, other.rf_pm))
         obj.cf_pm = list(map(add, self.cf_pm, other.cf_pm))
@@ -51,6 +56,9 @@ class PlayerStats():
         obj.total_serve_points  = self.total_serve_points + other.total_serve_points
         obj.total_games_played  = self.total_games_played + other.total_games_played
 
+        obj.points_per_game = obj.total_serve_points / obj.total_games_played
+        obj.points_per_serve = obj.total_serve_points / obj.total_serves
+
     def add_points_to_rotation(self, rotation : str, points : int) -> None:
         '''Function adds the number of points specified to the plus minus statistics of the given
         player's rotation.
@@ -61,24 +69,13 @@ class PlayerStats():
         if points < 0:
             side = MINUS
 
-        if rotation == self.ROTATION[0]:
-            self.rb_pm[side]        += points
+        self._rotation_pm[self.ROTATION.index(rotation)][side] += points
+
+        if rotation in (self.ROTATION[0], self.ROTATION[4], self.ROTATION[5]):
             self.back_row_pm[side]  += points
-        if rotation == self.ROTATION[1]:
-            self.rf_pm[side]        += points
+
+        if rotation in (self.ROTATION[1], self.ROTATION[2], self.ROTATION[3]):
             self.front_row_pm[side] += points
-        if rotation == self.ROTATION[2]:
-            self.cf_pm[side]        += points
-            self.front_row_pm[side] += points
-        if rotation == self.ROTATION[3]:
-            self.lf_pm[side]        += points
-            self.front_row_pm[side] += points
-        if rotation == self.ROTATION[4]:
-            self.lb_pm[side]        += points
-            self.back_row_pm[side]  += points
-        if rotation == self.ROTATION[5]:
-            self.cb_pm[side]        += points
-            self.back_row_pm[side]  += points
 
         self.pm_stats[side] += points
 
@@ -105,14 +102,15 @@ class VolleyStats():
 
         self.stats_type = VolleyStats.GAME
 
-        for num in lineup:
+        if lineup:
+            for num in lineup:
             # [RB, RF, CF, LF, LB, CB]
             # self.player_stats[num] = {'RB': [0, 0], 'RF': [0, 0], 'CF': [0, 0],
             #                           'LF': [0, 0], 'LB': [0, 0], 'CB': [0, 0],
             #                           'front_row': [0, 0], 'back_row': [0, 0], 'pm_stats': [0, 0],
             #                           'serve_runs': [], 'total_serves': 0, 'served_scores': [],
             #                           'total_serve_points': 0, 'games': 0,}
-            self.player_stats[num] = PlayerStats(num)
+                self.player_stats[num] = PlayerStats(num)
 
     def __add__(self, other: "VolleyStats") -> "VolleyStats":
         obj = VolleyStats()
@@ -127,8 +125,9 @@ class VolleyStats():
             obj.won = True
 
         # combine the stats of players across multiple games
-        for num in set(self.player_stats.keys() + other.player_stats.keys()):
-            obj.player_stats[num] = self.player_stats.get(num) + other.player_stats.get(num)
+        for num in set(list(self.player_stats.keys()) + list(other.player_stats.keys())):
+            obj.player_stats[num] = self.player_stats.get(num, PlayerStats(num)) \
+                                  + other.player_stats.get(num, PlayerStats(num))
 
         return obj
 
@@ -154,18 +153,18 @@ class VolleyStats():
         # points gained before the return are from successful serves
         if p_m == PLUS and not beg:
             rotation = rotation[-1:] + rotation[:-1]
-            for i, _ in enumerate(PlayerStats.ROTATION):
-                self.player_stats[rotation[i]].add_points_to_rotation(i, 1)
+            for i, jersey_num in enumerate(rotation):
+                self.player_stats[jersey_num].add_points_to_rotation(PlayerStats.ROTATION[i], 1)
             rotation = rotation[1:] + rotation[:1]
             scores.pop(0)
             score -= 1
 
-        for i, _ in enumerate(PlayerStats.ROTATION):
-            self.player_stats[rotation[i]].add_points_to_rotation(i, score)
+        for i, jersey_num in enumerate(rotation):
+            self.player_stats[jersey_num].add_points_to_rotation(PlayerStats.ROTATION[i], score)
 
         # assign serving stats to server position when processing positive (team) scores
         if p_m == PLUS:
-            self.player_stats[rotation[0]].served_scores.append(scores)
+            self.player_stats[rotation[0]].served_scores += scores
             self.player_stats[rotation[0]].serve_runs.append(score)
             self.player_stats[rotation[0]].total_serves += 1
 
@@ -179,6 +178,10 @@ class VolleyStats():
                 player.total_games_played += 1
             else:
                 player.total_games_played += self.HALF_GAME
+
+            player.points_per_game = player.total_serve_points / player.total_games_played
+            player.points_per_serve = player.total_serve_points / player.total_serves
+
 
 def _calculate_new_stats_type(left : VolleyStats, right : VolleyStats) -> int:
     if (left.stats_type == left.GAME and right.stats_type == right.GAME) or \
