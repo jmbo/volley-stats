@@ -14,11 +14,17 @@ class PlayerStats():
     def __init__(self, num) -> None:
         self.jersey_num = num
 
-        self.rb_pm = self.rf_pm = self.cf_pm = [0, 0]
-        self.lf_pm = self.lb_pm = self.cb_pm = [0, 0]
+        self.rb_pm = [0, 0]
+        self.rf_pm = [0, 0]
+        self.cf_pm = [0, 0]
+        self.lf_pm = [0, 0]
+        self.lb_pm = [0, 0]
+        self.cb_pm = [0, 0]
         self._rotation_pm = [self.rb_pm, self.rf_pm, self.cf_pm, self.lf_pm, self.lb_pm, self.cb_pm]
 
-        self.front_row_pm = self.back_row_pm = self.pm_stats = [0, 0]
+        self.front_row_pm = [0, 0]
+        self.back_row_pm  = [0, 0]
+        self.pm_stats     = [0, 0]
 
         self.total_serves  = 0
         self.served_scores = []
