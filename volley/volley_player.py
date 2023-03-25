@@ -1,11 +1,12 @@
 '''Volleyball Roster module'''
+from typing import List
 
 class VolleyRoster(object):
     '''Class representing the volleyball roster.
 
     '''
-    def __init__(self) -> "VolleyRoster":
-        self.players = []
+    def __init__(self) -> None:
+        self.players: List[VolleyPlayer] = []
 
     def add_player(self, name : str, gender : str, status : str, number : str) -> None:
         '''Adds a volleyball player to the roster.
@@ -19,7 +20,7 @@ class VolleyRoster(object):
             if player.number == number:
                 return player.name
 
-        return None
+        return ""
 
 
 class VolleyPlayer(object):
@@ -28,7 +29,7 @@ class VolleyPlayer(object):
     '''
 
     def __init__(self, name : str, gender : str, status : str, number : str) -> None:
-        self.name = name
+        self.name   = name
         self.gender = gender
         self.status = status
         self.number = number

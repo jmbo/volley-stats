@@ -1,158 +1,106 @@
 '''Volleyball Match module'''
-from typing import List, Dict, Union
+from typing import List, Dict, TypedDict, Union
 
 from .volley_player import VolleyRoster
+from .volley_stats import VolleyStats, PLUS, MINUS
 
-class VolleyGame(object):
+class VolleyGameType(TypedDict):
+    "Typing class for Dictionary structure received from parsing the Volleyball YAML info sheet"
+    lineup          : List[int]
+    team_scores     : List[Union[str, int]]
+    opponent_scores : List[Union[str, int]]
+    serve           : bool
+    include         : bool
+    full            : bool
+    game            : int
+
+class VolleyGame():
     '''Class representing a volleyball game keeping stats and records.
 
     '''
     total_court_pos = 6
 
-    def __init__(self, game : Dict[str, Union[int, bool, List[int], List[Union[str, int]]]]) \
-                                                                                -> "VolleyGame":
-        self.lineup= game['lineup']
+    def __init__(self, game : VolleyGameType) -> None:
+        self.lineup      = game['lineup']
         self.team_scores = game['team_scores']
-        self.oppo_scores = game['oppo_scores']
+        self.oppo_scores = game['opponent_scores']
         self.serve_start = game['serve']
-        self.full = game['full']
-        self.match = game['match']
-        self.game = game['game']
-        self.player_stats = {}
-        self.won = None
+        self.include     = game['include']
+        self.full        = game['full']
+        self.game        = game['game']
+        self.game_stats  = VolleyStats(self.lineup)
 
-    def calc_pos_stats(self, num: int) -> List[List[int]]:
-        '''Calculates the plus/minus stats for each position in a game for a starting position in
-           the lineup.
+        # calculate stats if games is to be included in stats
+        if self.include:
+            self._calc_game_stats()
 
-            Params:
-                num : value of player's jersey's number as it is found on the lineup.
-            Return:
-                pos_stats : +/- stats for each position the player was on as they rotated
-                around the court. Each item in the list is a 2 item list where the first item
-                contains the +points for that player at that position and the second item
-                contains the -points for that player at that position. The first item on the
-                list is indicates the RB (Server) position with each next item being the next
-                (clockwise [CW]) rotation of the num player.
-        '''
-        # #### NET #####
-        # [LF, CF, RF]   ==> [RB, CB, LB, LF, CF, RF]
-        # [LB, CB, RB]
-
-        # initializing pos stats starting with RB and ending with RF -- each item in the list
-        # represents [points scored by the team, points lost by the team]
-        pos_stats = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-
-        # calculate the positive stats
-        # FIXME: is there a BUG attributing the first point after each rotation to the correct pos?
-        prev = None
-        index = (self.total_court_pos - self.lineup.index(num)) % self.total_court_pos
-        for score in self.team_scores:
-            if isinstance(score, int):
-                if (not self.serve_start and score == 1):
-                    pos_stats[(index - 1) % self.total_court_pos][0] += 1
-                else:
-                    pos_stats[index][0] += 1
-            elif score in ('R', 'r', 'X', 'x'):
-                # index = (index - 1) % self.total_court_pos
-                pass
-            else:
-                raise Exception("unknown item passed in team_scores")
-            # player first scores point in current position and then team rotates... therefore,
-            # there's a delay of 1
-            if prev in ('R', 'r', 'X', 'x'):
-                index = (index + 1) % self.total_court_pos
-
-            prev = score
-
-        # calculate the negative stats
-        index = (self.total_court_pos - self.lineup.index(num)) % self.total_court_pos
-        if not self.serve_start:
-            index = (index - 1) % self.total_court_pos
-
-        for score in self.oppo_scores:
-            if isinstance(score, int):
-                pos_stats[index][1] -= 1
-            elif score in ('R', 'r', 'X', 'x'):
-                index = (index + 1) % self.total_court_pos
-            else:
-                raise Exception("unknown item passed in oppo_scores")
-
-        return pos_stats
-
-    def calc_game_stats(self) -> None:
+    def _calc_game_stats(self) -> None:
         '''Calculates game stats for this game.
         '''
-        # determine if game was Lost or Won
-        if self.team_scores[-1] in ('R', 'r'):
-            self.won = False
-        else:
-            self.won = True
+        # calculate game final scores
+        self.game_stats.add_final_score(max([x for x in self.team_scores if str(x).isdigit()]),
+                                        max([x for x in self.oppo_scores if str(x).isdigit()]))
 
-        # initialize players
-        ## TODO: calc pos stats only once and the shift the array for the rest of the lineup
-        for num in self.lineup:
-            pos_stats = self.calc_pos_stats(num)
-            self.player_stats[num] = {'run': [], 'serves': 0, 'scores': [], 'points': 0,
-                            'pm_stats': [], 'pos_stats': pos_stats,
-                            'fr_stats': [x1 + x2 + x3 for (x1, x2, x3) in zip(*pos_stats[3:])],
-                            'br_stats': [x1 + x2 + x3 for (x1, x2, x3) in zip(*pos_stats[:3])] }
+        ### PROCESS Team Scored Points Against Opponent
+        # initialize team rotation
+        rotation = self.lineup.copy()
+        if not self.serve_start:
+            # rotate the rotation back 1 if we start receiving
+            rotation = rotation[-1:] + rotation[:-1]
+            assert int(self.team_scores[0])
 
-        # calculate all player's scores while they were in the SERVE (RB) position
-        pos = 0
-        sco = 0
-        run = 0
+        # team_scores: ['R', 1, 2, 'R', 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 14, 'R']                     serve_start = true
+        # team_scores: [1, 2, 'R', 3, 'R', 4, 5, 6, 'R', 7, 8, 'R', 9, 'R', 10, 'R', 11, 12, 13, 'R', 14, 'R', 15, 16, 'R', 17, 'R']    serve_start = true  || false
+
+        sco : List[int] = []
+        start = self.serve_start
         for score in self.team_scores:
             if score in ('R', 'r', 'X', 'x'):
-                self.player_stats[self.lineup[pos % self.total_court_pos]]['run'].append(run)
-                self.player_stats[self.lineup[pos % self.total_court_pos]]['serves'] += 1
-                pos += 1
-                run = 0
+                self.game_stats.add_score_run(rotation, sco, PLUS, beg=start)
+                rotation = rotation[1:] + rotation[:1]
+                start = False
+                sco = []
             else:
-                sco += 1
-                run += 1
-                if sco != score:
-                    raise Exception("Scoring unmatched or incomplete")
-                self.player_stats[self.lineup[pos % self.total_court_pos]]['scores'].append(score)
+                sco.append(int(score))
 
-        for item in self.player_stats.items():
-            player = item[1]
+        ### PROCESS Opponent Scored Points Against Team
+        # initialize team rotation
+        rotation = self.lineup.copy()
+        if not self.serve_start:
+            # rotate the rotation back 1 if we start receiving
+            rotation = rotation[-1:] + rotation[:-1]
 
-            # calculate the +/- stats for each player in this game
-            # positive should be the total points scored by the team, negative should be the
-            # score of the opposite team
-            pos_sum = neg_sum = 0
-            for i in player['pos_stats']:
-                pos_sum += i[0]
-                neg_sum += i[1]
-            player['pm_stats'].append(pos_sum)
-            player['pm_stats'].append(neg_sum)
+        sco = []
+        for score in self.oppo_scores:
+            if score in ('R', 'r', 'X', 'x'):
+                self.game_stats.add_score_run(rotation, sco, MINUS)
+                rotation = rotation[1:] + rotation[:1]
+                sco = []
+            else:
+                sco.append(int(score))
 
-            # calculate number of points player "scored" in the SERVE (RB) position
-            if sum(player['run']) != len(player['scores']):
-                raise Exception("Player's scores and point runs do not match")
+        ### FINALIZE Game Stats
+        self.game_stats.finish_game(self.full)
 
-            player['points'] = len(player['scores'])
 
-    def get_game_stats(self) -> Dict[int, Union[int, List[Union[int, List[int]]]]]:
-        '''Gets game stats for this game.
+        # for item in self.player_stats.items():
+        #     player = item[1]
 
-            Returns:
-                self.stats -> dict()
-                  keys  : each player's jersey number
+        #     # calculate the +/- stats for each player in this game
+        #     # positive should be the total points scored by the team, negative should be the
+        #     # score of the opposite team
+        #     pos_sum = neg_sum = 0
+        #     for i in player['pos_stats']:
+        #         pos_sum += i[0]
+        #         neg_sum += i[1]
+        #     player['pm_stats'].append(pos_sum)
+        #     player['pm_stats'].append(neg_sum)
 
-                  values:
+        #     # calculate number of points player "scored" in the SERVE (RB) position
+        #     if sum(player['run']) != len(player['scores']):
+        #         raise Exception("Player's scores and point runs do not match")
 
-                    'run' = indicates number of successful points for each serve run in this game
-
-                    'serves' = indicates total number of serve runs in this game
-
-                    'scores' = indicates which score points the player served in
-
-                    'points' = indicates total points player served on this game
-        '''
-        self.calc_game_stats()
-        return self.player_stats
+        #     player['points'] = len(player['scores'])
 
     def get_game_lineup(self) -> List[int]:
         '''Gets the game lineup.
@@ -171,11 +119,12 @@ class VolleyMatch(object):
             stats       ()
 
     '''
-    def __init__(self, games : List[VolleyGame]) -> "VolleyMatch":
-        self.games = games
-        self.stats = None
+    def __init__(self, oppo: str) -> None:
+        self.opponent                = oppo
+        self.games: List[VolleyGame] = []
+        self.stats                   = VolleyStats()
 
-    def add_game(self, game : VolleyGame) -> None:
+    def add_game(self, game : VolleyGameType)  -> None:
         '''add_game() adds a game to the class instance.
 
             Params:
@@ -191,49 +140,9 @@ class VolleyMatch(object):
 
                 full        (bool): indicates whether this game was played to the end of a reg set
         '''
-        self.games.append(game)
-
-    def calc_match_stats(self) -> None:
-        '''Calculates match stats.
-        '''
-        players = {}
-
-        for game in self.games:
-            # initialize player's plus/minus stats
-            lineup = game.get_game_lineup()
-            for num in lineup:
-                if num not in players:
-                    players[num] = {'total_match_points': 0,
-                                    'total_match_serves': 0,
-                                    'games': 0,
-                                    'pm_stats' : [0, 0],
-                                    'fr_stats' : [0, 0],
-                                    'br_stats' : [0, 0],
-                                    'pos_stats': [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]}
-
-            # populate player stats from each game
-            game_stats = game.get_game_stats()
-            for key in game_stats.keys():
-                players[key]['total_match_points'] += game_stats[key]['points']
-                players[key]['total_match_serves'] += game_stats[key]['serves']
-                players[key]['pos_stats'] = [list(map(sum, zip(*n)))
-                        for n in zip(players[key]['pos_stats'], game_stats[key]['pos_stats'])]
-                players[key]['pm_stats'] = [x1 + x2
-                        for (x1, x2) in zip(players[key]['pm_stats'], game_stats[key]['pm_stats'])]
-                players[key]['fr_stats'] = [x1 + x2
-                        for (x1, x2) in zip(players[key]['fr_stats'], game_stats[key]['fr_stats'])]
-                players[key]['br_stats'] = [x1 + x2
-                        for (x1, x2) in zip(players[key]['br_stats'], game_stats[key]['br_stats'])]
-                if game.full:
-                    players[key]['games'] += 1
-                else:
-                    players[key]['games'] += 0.5
-
-        for player in players.items():
-            player[1]['ppg'] = player[1]['total_match_points'] / player[1]['games']
-            player[1]['pps'] = player[1]['total_match_points'] / player[1]['total_match_serves']
-
-        self.stats = players
+        self.games.append(VolleyGame(game))
+        # add last added game's stats to match stats
+        self.stats += self.games[-1].game_stats
 
     def print_player_stats(self, roster : VolleyRoster) -> None:
         '''Prints a player's stats.
@@ -296,5 +205,16 @@ class VolleySeason(object):
             stats       ()
 
     '''
-    def __init__(self):
-        pass
+    def __init__(self, league: str, season: str, year: int, roster: VolleyRoster) -> None:
+        self.matches: List[VolleyMatch] = []
+        self.roster = roster
+        self.league = str.upper(league) + ' ' + str.capitalize(season) + ' ' + str(year)
+
+
+    def add_match(self, match: VolleyMatch) -> None:
+        '''Adds a match info to the volleyball season.
+        '''
+        self.matches.append(match)
+
+    def print_match(self, match : int) -> None:
+        """Function prints the provided Volleyball's Match Game information and Statistics."""

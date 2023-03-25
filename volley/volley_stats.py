@@ -11,7 +11,7 @@ class PlayerStats():
     '''
     ROTATION = ['RB', 'RF', 'CF', 'LF', 'LB', 'CB']
 
-    def __init__(self, num) -> None:
+    def __init__(self, num : int) -> None:
         self.jersey_num = num
 
         self.rb_pm = [0, 0]
@@ -27,18 +27,16 @@ class PlayerStats():
         self.pm_stats     = [0, 0]
 
         self.total_serves  = 0
-        self.served_scores = []
-        self.serve_runs    = []
+        self.served_scores : List[int]  = []
+        self.serve_runs    : List[int]  = []
 
-        self.total_serve_points = 0
-        self.total_games_played = 0
+        self.total_serve_points : int   = 0
+        self.total_games_played : float = 0
 
-        self.points_per_game  = 0
-        self.points_per_serve = 0
+        self.points_per_game  : float   = 0
+        self.points_per_serve : float   = 0
 
     def __add__(self, other: "PlayerStats") -> "PlayerStats":
-
-        # TODO: might need to check if None values present
 
         if self.jersey_num != other.jersey_num:
             msg = f"players don't match: {self.jersey_num} vs. {other.jersey_num}"
@@ -62,8 +60,19 @@ class PlayerStats():
         obj.total_serve_points  = self.total_serve_points + other.total_serve_points
         obj.total_games_played  = self.total_games_played + other.total_games_played
 
-        obj.points_per_game = obj.total_serve_points / obj.total_games_played
-        obj.points_per_serve = obj.total_serve_points / obj.total_serves
+        try:
+            obj.points_per_game = obj.total_serve_points / obj.total_games_played
+            obj.points_per_serve = obj.total_serve_points / obj.total_serves
+        except ZeroDivisionError as exc:
+            if obj.total_serve_points == 0:
+                if obj.total_games_played == 0:
+                    obj.points_per_game = 0
+                if obj.total_serves == 0:
+                    obj.points_per_serve = 0
+            else:
+                raise exc
+
+        return obj
 
     def add_points_to_rotation(self, rotation : str, points : int) -> None:
         '''Function adds the number of points specified to the plus minus statistics of the given
@@ -97,9 +106,9 @@ class VolleyStats():
     SEASON      = 2
     ALL_TIME    = 3
 
-    def __init__(self, lineup : List[int] = None) -> None:
-        self.back_row_stats  = {}
-        self.front_row_stats = {}
+    def __init__(self, lineup : Union[List[int], None] = None) -> None:
+        self.back_row_stats  : Dict[Tuple[int, int, int], List[int]] = {}
+        self.front_row_stats : Dict[Tuple[int, int, int], List[int]] = {}
         self.player_stats : Dict[int, PlayerStats]   = {}
 
         self.final_team_score = 0
@@ -107,6 +116,7 @@ class VolleyStats():
         self.won = False
 
         self.stats_type = VolleyStats.GAME
+        self.valid      = False
 
         if lineup:
             for num in lineup:
@@ -120,6 +130,10 @@ class VolleyStats():
 
     def __add__(self, other: "VolleyStats") -> "VolleyStats":
         obj = VolleyStats()
+
+        # if both VolleyStats objects are NULL, return a NULL object
+        if not self.valid and not other.valid:
+            return obj
 
         # calculate type of result
         obj.stats_type = _calculate_new_stats_type(self, other)
@@ -135,7 +149,12 @@ class VolleyStats():
             obj.player_stats[num] = self.player_stats.get(num, PlayerStats(num)) \
                                   + other.player_stats.get(num, PlayerStats(num))
 
+        obj.valid = True
+
         return obj
+
+    # def __iadd__(self, other: "VolleyStats") -> "VolleyStats":
+    #     return self.__add__(other)
 
     def add_final_score(self, team: int, oppo: int) -> None:
         ''' Add final game scores'''
@@ -185,8 +204,19 @@ class VolleyStats():
             else:
                 player.total_games_played += self.HALF_GAME
 
-            player.points_per_game = player.total_serve_points / player.total_games_played
-            player.points_per_serve = player.total_serve_points / player.total_serves
+            try:
+                player.points_per_game = player.total_serve_points / player.total_games_played
+                player.points_per_serve = player.total_serve_points / player.total_serves
+            except ZeroDivisionError as exc:
+                if player.total_serve_points == 0:
+                    if player.total_games_played == 0:
+                        player.points_per_game = 0
+                    if player.total_serves == 0:
+                        player.points_per_serve = 0
+                else:
+                    raise exc
+        # validate these stats
+        self.valid = True
 
 
 def _calculate_new_stats_type(left : VolleyStats, right : VolleyStats) -> int:
@@ -199,10 +229,12 @@ def _calculate_new_stats_type(left : VolleyStats, right : VolleyStats) -> int:
 
     return VolleyStats.ALL_TIME
 
-def _calculate_new_final_score(left : VolleyStats, right : VolleyStats) -> Tuple[int, int, int]:
+def _calculate_new_final_score(left : VolleyStats, right : VolleyStats) -> Tuple[int, int]:
     team_score = 0
     oppo_score = 0
 
+    # TODO: BUG: if one of the games is the "NULL" stats, it will add a count to the oppo score
+    # since won is false by default
     if (left.stats_type == left.GAME and right.stats_type == right.GAME):
         if left.won:
             team_score += 1
