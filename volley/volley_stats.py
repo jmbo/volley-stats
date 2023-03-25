@@ -6,6 +6,12 @@ from operator import add
 PLUS  = 0
 MINUS = 1
 
+# array of backrow stats
+
+# array of front row stats
+
+# all stats per player per position
+
 class PlayerStats():
     ''' Class representing Player Statistics kept throughout kept VolleyStats
     '''
@@ -51,6 +57,7 @@ class PlayerStats():
         obj.lf_pm = list(map(add, self.lf_pm, other.lf_pm))
         obj.lb_pm = list(map(add, self.lb_pm, other.lb_pm))
         obj.cb_pm = list(map(add, self.cb_pm, other.cb_pm))
+        obj._rotation_pm = [obj.rb_pm, obj.rf_pm, obj.cf_pm, obj.lf_pm, obj.lb_pm, obj.cb_pm]
 
         obj.front_row_pm = list(map(add, self.front_row_pm, other.front_row_pm))
         obj.back_row_pm = list(map(add, self.back_row_pm, other.back_row_pm))
@@ -73,6 +80,16 @@ class PlayerStats():
                 raise exc
 
         return obj
+
+    def _print_pos_stats(self) -> str:
+        ret = ""
+        for pm_stat in self._rotation_pm:
+            stat = self._normalize(pm_stat)
+            ret += f"+{stat[0]:>2}/-{abs(stat[1]):<2} "
+        return ret[:-1]
+
+    def _normalize(self, sta: List[int]) -> List[int]:
+        return [round((sta[0] / self.pm_stats[0]) * 100), round((sta[1] / self.pm_stats[1]) * 100)]
 
     def add_points_to_rotation(self, rotation : str, points : int) -> None:
         '''Function adds the number of points specified to the plus minus statistics of the given
@@ -120,12 +137,6 @@ class VolleyStats():
 
         if lineup:
             for num in lineup:
-            # [RB, RF, CF, LF, LB, CB]
-            # self.player_stats[num] = {'RB': [0, 0], 'RF': [0, 0], 'CF': [0, 0],
-            #                           'LF': [0, 0], 'LB': [0, 0], 'CB': [0, 0],
-            #                           'front_row': [0, 0], 'back_row': [0, 0], 'pm_stats': [0, 0],
-            #                           'serve_runs': [], 'total_serves': 0, 'served_scores': [],
-            #                           'total_serve_points': 0, 'games': 0,}
                 self.player_stats[num] = PlayerStats(num)
 
     def __add__(self, other: "VolleyStats") -> "VolleyStats":
@@ -155,6 +166,9 @@ class VolleyStats():
 
     # def __iadd__(self, other: "VolleyStats") -> "VolleyStats":
     #     return self.__add__(other)
+
+    def __str__(self) -> str:
+        return _print_stats(self)
 
     def add_final_score(self, team: int, oppo: int) -> None:
         ''' Add final game scores'''
@@ -218,6 +232,9 @@ class VolleyStats():
         # validate these stats
         self.valid = True
 
+    def print_stats(self) -> None:
+        """Function prints the provided Match's Statistics."""
+        print(_print_stats(self))
 
 def _calculate_new_stats_type(left : VolleyStats, right : VolleyStats) -> int:
     if (left.stats_type == left.GAME and right.stats_type == right.GAME) or \
@@ -264,17 +281,50 @@ def _calculate_new_final_score(left : VolleyStats, right : VolleyStats) -> Tuple
 
     return (team_score, oppo_score)
 
+def _print_stats(self: VolleyStats) -> str:
+            # game = self.games[0]
+        # for key in game.stats.keys():
+        #     name = roster.get_player_name(key)
+        #     print(f'({key:02d}) {name} {" "*(8-len(name))} => ', game.stats[key])
 
+    msg = ''
+    msg += " Name ".center(16, '-')     + " =>"  # 16
+    msg += " Total Games "                + "|"   # 11
+    msg += " Serve Rotations "            + "|"   # 15
+    msg += " +/- Stats "                  + "|"   # 9
+    msg += " % (Normalized) ".center(49)  + "|"   # 48
+    msg += " % (Normalized) ".center(19)  + "|"   # 9
+      #    "BR".center(8),         "|",  # 9
+    msg += " Pts/Serve "                  + "|"   # 9
+    msg += " Pts/Game "                   + "|\n" # 8
 
-# array of backrow stats
+    msg += f"{' ':>17}  {' ':>13}|{' ':>17}|{' ':>11}|"
+    msg += "   RB      RF      CF      LF      LB      CB    |"
+    msg += "BR".center(9) + "|" +  "FR".center(9) + "|"
+    msg += f"{' ':>11}|{' ':10}|\n"
 
-# array of front row stats
+    # sort dictionary by ppg
+    # stats = dict(sorted(self.match_stats.items(), key=lambda x:x[1]['ppg'], reverse=True))
+    stats = dict(sorted(self.player_stats.items(), key=lambda x:x[1].points_per_game, reverse=True))
 
-# all stats per player per position
+    for item in stats.items():
+        num = item[0]
+        player = item[1]
+        # name = roster.get_player_name(num)
+        name = ''
 
-# game runs
-  # player : [total run]
+        msg += f"({num:02d}) {name}".ljust(16, ' ')                                     + " => "
+        msg += f"{player.total_games_played:11.1f}"                                     + " | "
+        msg += f"{player.total_serves:>15}"                                             + " | "
+        msg += f"+{player.pm_stats[0]:>3}/-{abs(player.pm_stats[1]):<3}"                + " | "
+        #   f"{player['pos_stats']}",                                             "|",
+        msg += f"{player._print_pos_stats()}"                                           + " | "
+        stat = player._normalize(player.back_row_pm)
+        msg += f"+{stat[0]:>2}/-{abs(stat[1]):<2}"                                      + " | "
+        stat = player._normalize(player.front_row_pm)
+        msg += f"+{stat[0]:>2}/-{abs(stat[1]):<2}"                                      + " | "
+        msg += f"{player.points_per_serve:9.2f}"                                        + " | "
+        msg += f"{player.points_per_game:8.2f}"                                         + " | "
+        msg += "\n"
 
-
-    # def print_stats(self) -> None:
-    #     '''prints the volley stats contained in this class'''
+    return msg

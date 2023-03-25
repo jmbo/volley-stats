@@ -33,7 +33,8 @@ for match in season['matches']:
         # add match to the volley season
         volley_season.add_match(volley_match)
 
-volley_season.print_match(0)
+# volley_season.print_match(0)
+print(volley_season)
 
 # # # TODO: how to correctly parse the holes ?? -- look at match 2
 

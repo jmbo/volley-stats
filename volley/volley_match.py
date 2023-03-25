@@ -1,5 +1,5 @@
 '''Volleyball Match module'''
-from typing import List, Dict, TypedDict, Union
+from typing import List, TypedDict, Union
 
 from .volley_player import VolleyRoster
 from .volley_stats import VolleyStats, PLUS, MINUS
@@ -122,7 +122,7 @@ class VolleyMatch(object):
     def __init__(self, oppo: str) -> None:
         self.opponent                = oppo
         self.games: List[VolleyGame] = []
-        self.stats                   = VolleyStats()
+        self.match_stats             = VolleyStats()
 
     def add_game(self, game : VolleyGameType)  -> None:
         '''add_game() adds a game to the class instance.
@@ -142,60 +142,7 @@ class VolleyMatch(object):
         '''
         self.games.append(VolleyGame(game))
         # add last added game's stats to match stats
-        self.stats += self.games[-1].game_stats
-
-    def print_player_stats(self, roster : VolleyRoster) -> None:
-        '''Prints a player's stats.
-
-            Params:
-                roster : VolleyRoster containing all player's info and status.
-        '''
-        # helper function to calculate the position percentage
-        def cpp(stat, total):
-            return round((stat * 100/ total))
-            # return stat
-        # helper function to pretty print positional stats by percentage
-        def pretty_print_stats(sta, plm):
-            return f"+{cpp(sta[0], plm[0]):>2}/-{abs(cpp(sta[1], plm[1])):<2}"
-        def pretty_print_pos_stats(sta, plm):
-            res = ""
-            for i in sta:
-                res += f"+{cpp(i[0], plm[0]):>2}/-{abs(cpp(i[1], plm[1])):<2} "
-            return res[:-1]
-
-        # game = self.games[0]
-        # for key in game.stats.keys():
-        #     name = roster.get_player_name(key)
-        #     print(f'({key:02d}) {name} {" "*(8-len(name))} => ', game.stats[key])
-        print(" Name ".center(16, '-'), "=>",  # 16
-               "Total Games",          "|",  # 11
-               "Serve Rotations",      "|",  # 15
-               "+/- Stats",            "|",  # 9
-               "% (Normalized)".center(47), "|",  #48
-               "% (Normalized)".center(17),         "|",  # 9
-            #    "BR".center(8),         "|",  # 9
-               "Pts/Serve",            "|",  # 9
-               "Pts/Game",             "|")  # 8
-        print(f"{' ':>17}  {' ':>13}|{' ':>17}|{' ':>11}|",
-               "  RB      CB      LB      LF      CF      RF    |",
-              "BR".center(7), "|", "FR".center(7), "|", f"{' ':>10}|{' ':10}|")
-        # sort dictionary by ppg
-        stats = dict(sorted(self.stats.items(), key=lambda x:x[1]['ppg'], reverse=True))
-
-        for item in stats.items():
-            num = item[0]
-            player = item[1]
-            name = roster.get_player_name(num)
-            print(f"({num:02d}) {name}".ljust(16, ' '),                                 '=>',
-                  f"{player['games']:11.1f}",                                           "|",
-                  f"{player['total_match_serves']:>15}",                                "|",
-                  f"+{player['pm_stats'][0]:>3}/-{abs(player['pm_stats'][1]):<3}",      "|",
-                #   f"{player['pos_stats']}",                                             "|",
-                  f"{pretty_print_pos_stats(player['pos_stats'], player['pm_stats'])}", "|",
-                  f"{pretty_print_stats(player['br_stats'], player['pm_stats'])}",      "|",
-                  f"{pretty_print_stats(player['fr_stats'], player['pm_stats'])}",      "|",
-                  f"{player['pps']:9.2f}",                                              "|",
-                  f"{player['ppg']:8.2f}",                                              "|")
+        self.match_stats += self.games[-1].game_stats
 
 class VolleySeason(object):
     '''Class representing a volleyball season composed of multiple matches.
@@ -210,11 +157,19 @@ class VolleySeason(object):
         self.roster = roster
         self.league = str.upper(league) + ' ' + str.capitalize(season) + ' ' + str(year)
 
+        self.season_stats  = VolleyStats()
+
+    def __str__(self) -> str:
+        return str(self.season_stats)
 
     def add_match(self, match: VolleyMatch) -> None:
         '''Adds a match info to the volleyball season.
         '''
         self.matches.append(match)
+        # add last added match's stats to season stats
+        self.season_stats += self.matches[-1].match_stats
 
     def print_match(self, match : int) -> None:
         """Function prints the provided Volleyball's Match Game information and Statistics."""
+
+        self.matches[match].print_stats(self.roster)

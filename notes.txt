@@ -1,0 +1,72 @@
+on serving order
+Match 2
+G1 [Ian, Pooja, Jose, Holly, Reid, Reba]
+G2 [Madysen, Markus, Rasheda, Ian, Pooja, Lee]
+G3 [Holly, Lee, Reba, Jose, Rashida, Reid]
+
+Match 3
+G1 [Pooja, Markus, Rashida, Reid, Reba, Jacob]
+G2 [Holly, Lee, Madysen, Ian, Rashida, Jose]
+G3 [Markus, Holly, Lee, Madysen, Jacob, Reba]
+
+G1 [Reba, Markus, Rashida, Lee, Holly, Jacob]
+G2 [Pooja, Ian, Madysen, Reid, Rashida, Jose]
+G3 [Markus, Holly, Lee, Madysen, Jacob, Reba]
+
+Match 4
+G1 [Jose, Rasheda, Jacob, Pooja, Ian, Holly]
+G2 [Holly, Markus, Madysen, Lee, Rasheda, Jacob]
+G3 [Pooja, Markus, Rasheda, Ian, Madysen, Jose]
+
+0 : RB Server
+1 : CB
+2 : LB
+
+3 : LF
+4 : CF
+5 : RF
+
+  _                            _
+ |  Madysen   Markus  Pineapple |
+ |                              |
+ |    Lee     Holly    Paul     |
+-------------- NET ---------------
+
+        TRI                     FR +/-        BR +/-
+[Lee Holly Paul]
+[Holly Paul Pineapple]
+[Paul Pineapple Markus]
+[Pineapple Markus Madysen]
+[Markus Madysen Lee]
+[Madysen Lee Holly]
+
+************************************************************************************************************************
+************************************************************************************
+				MATCH 1 STATS -- OPPONENT: Volleynomials
+************************************************************************************
+ ---------- NET ---------    ---------- NET ---------    ---------- NET ---------
+ _                       _   _                       _   _                       _
+| Madysen Madysen Madysen | | Madysen Madysen Madysen | | Madysen Madysen Madysen |
+|                         | |                         | |                         |
+|_PApple Madysen    Ian  _| |_Pineapp Pineapp Pineapp_| |_Pineapp Pineapp Pineapp_|
+
+         GAME 1                      GAME 2                       GAME 3
+       L : 15 - 25                 W : 25 - 20                  L : 19 - 25
+
+Serve Runs:
+    Markus: 4, 7              Pineapple: 3                Holly: 7, 3
+    Pooja: 5
+
+    Opponent: 7, 4
+
+
+*** +/- MATCH STATS ***
+
+*** +/- MATCH STATS ***
+----- Name ----- => Total Games | +/- Stats |                  % (Normalized)                 |   % (Normalized)  |
+                                |           |   RB      RF      CF      LF      LB      CB    |    BR   |    FR   |
+
+----- Name ----- => Total Games | Serve Rotations | Pts/Serve | Pts/Game | +/- Diff |
+                                |                 |           |          |
+
+*** BACKROW / FRONTROW STATS ***
