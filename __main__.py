@@ -11,7 +11,7 @@ from volley.volley_player import VolleyRoster
 ### Define Players
 roster = VolleyRoster()
 
-with open('scores/fall-2022.yaml', 'r') as file:
+with open('scores/coed-fa22.yaml', 'r') as file:
     season = yaml.safe_load(file)
 
 ## add players to roster
