@@ -1,0 +1,278 @@
+
+season: winter
+year:   2023
+league: COED
+
+roster:
+  females:
+    - {name: Holly,   status: full, jersey: 00}
+    - {name: Madysen, status: full, jersey: 25}
+    - {name: Reba,    status: full, jersey: 23}
+    - {name: Rasheda, status: full, jersey: 78}
+    - {name: Pooja,   status: full, jersey: 93}
+
+    - {name: Natalie, status: sub, jersey: 5}
+    - {name: Bre,     status: sub, jersey: 13}
+  males:
+    - {name: Lee,     status: full, jersey: 29}
+    - {name: Markus,  status: full, jersey: 38}
+    - {name: Jose,    status: full, jersey: 30}
+    - {name: Ian,     status: full, jersey: 9}
+    - {name: Jacob,   status: full, jersey: 11}
+    - {name: Reid,    status: full, jersey: 45}
+
+    - {name: Paul,    status: sub, jersey: 44}
+
+
+match1: &match1
+  - opponent: 'Sugar & Spike'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [23, 38, 78, 29, 00, 11],
+     team_scores: ['R', 1, 'R', 2, 'R', 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 'R', 15, 'R'],
+     opponent_scores: [1, 'R', 2, 3, 4, 5, 6, 7, 'R', 8, 9, 10, 'R', 11, 12, 'R', 13, 'R', 14, 15, 'R', 16, 17, 18, 19, 'R', 20, 21, 'R', 22, 23, 'R', 24, 'R', 25, 'X']}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [38, 00, 29, 25, 9, 93],
+     team_scores: [1, 2, 3, 'R', 4, 'R', 5, 'R', 6, 'R', 7, 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 15, 16, 'R', 17, 18, 19, 20, 'R', 21, 22, 23, 24, 'R', 25, 'X'],
+     opponent_scores: [1, 'R', 2, 'R', 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 9, 10, 11, 'R', 12, 13, 14, 15, 'R', 16, 'R']}
+  - {game: 3,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [93, 11, 23, 45, 78, 30],
+     team_scores: ['R', 1, 'R', 2, 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 9, 'R'],
+     opponent_scores: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 16, 17, 'R', 18, 'R', 19, 20, 21, 22, 23, 'R', 24, 'R', 24, 'X']}
+
+match2: &match2
+  - opponent: 'Sets in the City'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [9, 23, 29, 00, 45, 78],
+     team_scores: [1, 'R', 2, 3, 'R', 4, 5, 6, 'R', 7, 'R', 8, 'R', 9, 10, 'R', 11, 'R', 12, 13, 'R', 14, 15, 16, 17, 18, 'R', 19, 'R', 20, 21, 22, 23, 24, 25, 'X'],
+     opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 'R', 6, 'R', 7, 8, 9, 10, 'R', 11, 12, 'R', 13, 'R', 14, 'R', 15, 16, 17, 18, 19, 'R', 20, 21, 22, 23, 'R']}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [11, 25, 38, 00, 30, 23],
+     team_scores: [1, 'R', 2, 3, 'R', 4, 5, 'R', 6, 7, 'R', 8, 'R', 9, 'R', 10, 'R', 11, 12, 13, 14, 'R', 15, 'R', 16, 'R', 17, 'R', 18, 'R', 19, 'R', 20, 'R'],
+     opponent_scores: [1, 'R', 2, 'R', 3, 4, 'R', 5, 6, 7, 'R', 8, 9, 10, 'R', 11, 12, 'R', 13, 'R', 14, 'R', 15, 16, 17, 'R', 18, 'R', 19, 'R', 20, 21, 22, 'R', 23, 'R', 24, 'R', 25, 'X']}
+  - {game: 3,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [45, 78, 29, 25, 9, 23],
+     team_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 10, 'R', 11, 12, 'R', 13, 14, 15, 16, 'R', 17, 'R', 18, 19, 20, 21, 'R', 22, 'R'],
+     opponent_scores: [1, 'R', 2, 'R', 3, 4, 'R', 5, 6, 7, 8, 9, 10, 'R', 11, 12, 'R', 13, 14, 'R', 15, 'R', 16, 'R', 17, 18, 19, 20, 21, 'R', 22, 23, 'R', 24, 25, 'X']}
+
+match3: &match3
+  - opponent: 'Secret Service'
+  - {game: 1,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [38, 25, 30, 93, 11, 23],
+     team_scores: [1, 'R', 2, 3, 'R', 4, 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 11, 'R'],
+     opponent_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 8, 9, 10, 11, 12, 13, 'R', 14, 15, 'R', 16, 17, 18, 19, 20, 21, 'R', 22, 23, 'R', 24, 25, 'X'}
+  - {game: 2,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [45, 23, 29, 78, 9, 00],
+     team_scores: ['R', 1, 'R', 2, 3, 4, 5, 6, 7, 8, 'R', 9, 10, 11, 'R', 12, 'R', 13, 'R', 14, 15, 'R', 16, 17, 'R', 18, 19, 'R', 20, 21, 'R', 22, 23, 24, 'R', 25, 'X'],
+     opponent_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 'R', 9, 10, 'R', 11, 12, 'R', 13, 14, 'R', 15, 'R', 16, 17, 'R', 18, 'R', 19, 'R', 20, 21, 22, 'R']}
+  - {game: 3,
+     full: false,
+     serve: true,
+     include: true,
+     lineup: [11, 93, 29, 00, 30, 78],
+     team_scores: [1, 2, 'R', 3, 4, 5, 'R', 6, 7, 8, 'R', 9, 'R', 10, 11, 'R'],
+     opponent_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 'R', 15, 'X']}
+
+match4: &match4
+  - opponent: 'Volleynomials'
+  - {game: 1,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [93, 45, 78, 9, 23, 11],
+     team_scores: [1, 'R', 3, 'R', 4, 5, 6, 7, 8, 'R', 9, 'R', 10, 'R', 11, 'R', 12, 'R', 13, 'R', 14, 'R', 15, 'R'],
+     opponent_scores: ['R', 1, 2, 'R', 3, 4, 5, 6, 'R', 7, 8, 'R', 9, 10, 'R', 11, 12, 13, 'R', 14, 15, 'R', 16, 17, 18, 'R', 19, 'R', 20, 21, 22, 'R', 23, 24, 25, 'X']}
+  - {game: 2,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [25, 29, 78, 38, 23, 30],
+     team_scores: [1, 'R', 2, 'R', 3, 'R', 4, 'R', 5, 'R', 6, 7, 8, 'R', 9, 10, 11, 'R', 12, 13, 14, 15, 16, 17, 18, 'R', 19, 20, 21, 22, 'R', 23, 'R', 24, 'R', 25, 'R', 26, 27, 'R', 28, 'X'],
+     opponent_scores: [1, 2, 'R', 3, 4, 5, 6, 7, 8, 9, 10, 11, 'R', 12, 13, 'R', 14, 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R', 21, 'R', 22, 'R', 23, 24,'R', 25, 'R', 26, 'R']}
+  - {game: 3,
+     full: false,
+     serve: false,
+     include: true,
+     lineup: [93, 29, 25, 9, 78, 38],
+     team_scores: [1, 2, 'R', 3, 'R', 4, 'R'],
+     opponent_scores: [1, 2, 3, 4, 5, 6, 7, 'R', 8, 'R', 9, 10, 11, 12, 13, 14, 'R', 15, 'X']}
+
+match5: &match5
+  - opponent: 'Volley Llamas'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [38, 23, 30, 00, 45, 93],
+     team_scores: [1, 2, 'R', 3, 'R', 4, 'R', 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 12, 13, 14, 'R', 15, 'R', 16, 17, 'R', 18, 'R', 19, 'R', 20, 'R', 21, 'R', 22, 'R'],
+     opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 'R', 6, 7, 'R', 8, 9, 10, 'R', 11, 'R', 12, 'R', 13, 'R', 14, 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R', 21, 22, 'R', 23, 24, 25]}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [78, 9, 25, 38, 00, 11],
+     team_scores: [1, 2, 'R', 3, 4, 5, 'R', 6, 'R', 7, 'R', 8, 9, 10, 11, 'R', 12, 13, 14, 'R', 15, 'R', 16, 'R', 17, 18, 'R'],
+     opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 6, 7, 8, 'R', 9, 10, 11, 12, 13, 14, 15, 16, 'R', 17, 18, 'R', 19, 20, 'R', 21, 'R', 22, 'R', 23, 'R', 24, 25]}
+  - {game: 3,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [25, 9, 93, 45, 23, 30],
+     team_scores: ['R', 1, 'R', 2, 'R', 3, 4, 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 14, 'R'],
+     opponent_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 9, 10, 11, 12, 13, 14, 'R', 15, 16, 17, 'R', 18, 'R', 19, 20, 21, 'R', 22, 23, 'R', 24, 'R', 25]}
+
+match6: &match6
+  - opponent: 'Compact Setters'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [25, 45, 00, 11, 78, 9],
+     team_scores: [1, 2, 'R', 3, 4, 5, 'R', 6, 7, 8, 9, 10, 'R', 11, 'R', 12, 13, 14, 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R', 21, 22, 'R', 23, 24, 25, 'R', 26, 27],
+     opponent_scores: [1, 'R', 2, 'R', 3, 'R', 4, 'R', 5, 6, 7, 8, 'R', 9, 10, 11, 12, 13, 'R', 14, 15, 16, 'R', 17, 'R', 18, 19, 'R', 20, 21, 22, 23, 24, 'R', 25]}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [9, 78, 38, 00, 30, 25],
+     team_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 9, 10, 11, 12, 13, 'R', 14, 15, 16, 'R', 17, 'R', 18, 19, 20, 'R', 21, 22, 23, 24, 25],
+     opponent_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 'R', 9, 'R', 10, 'R', 11, 'R', 12, 'R', 13, 14, 15, 16, 'R']}
+  - {game: 3,
+     full: false,
+     serve: true,
+     include: true,
+     lineup: [45, 78, 30, 25, 11, 00],
+     team_scores: ['R', 1, 'R', 2, 'R', 3, 'R', 4, 5, 'R', 6, 7, 8, 'R', 9, 'R', 10, 11, 12, 13, 14, 15],
+     opponent_scores: [1, 2, 'R', 3, 'R', 4, 5, 'R', 6, 'R', 7, 8, 'R', 9, 'R', 10, 11, 12, 'R']}
+
+match7: &match7
+  - opponent: 'Can You Dig It'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [93, 30, 00, 38, 25, 9],
+     team_scores: [1, 'R', 2, 3, 4, 5, 6, 7, 8, 9, 'R', 10, 11, 12, 13, 'R', 14, 15, 'R', 16, 17, 18, 19, 20, 21, 'R', 22, 23, 24, 'R', 25],
+     opponent_scores: [1, 2, 3, 'R', 4, 5, 6, 7, 8, 9, 10, 'R', 11, 'R', 12, 'R', 13, 'R', 14, 15, 16, 17, 18, 19, 20, 21, 'R']}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [45, 00, 38, 78, 30, 93],
+     team_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 9, 'R', 10, 'R', 11, 12, 13, 'R', 14, 'R', 15, 'R'],
+     opponent_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 7, 8, 9, 'R', 10, 11, 'R', 12, 13, 'R', 14, 15, 16, 17, 18, 'R', 19, 'R', 20, 21, 'R', 22, 'R', 23, 24, 25]}
+  - {game: 3,
+     full: false,
+     serve: true,
+     include: true,
+     lineup: [78, 30, 93, 9, 25, 45],
+     team_scores: ['R', 1, 'R', 2, 'R', 3, 4, 5, 'R'],
+     opponent_scores: [1, 2, 3, 4, 5, 6, 'R', 7, 8, 'R', 9, 10, 11, 12, 13, 'R', 14, 15]}
+
+match8: &match8
+  - opponent: 'Set to Kill'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [9, 00, 38, 78, 11, 25],
+     team_scores: [1, 'R', 2, 'R', 3, 'R', 4, 5, 6, 7, 8, 9, 'R', 10, 11, 12, 'R', 13, 'R', 14, 'R'],
+     opponent_scores: [1, 2, 3, 4, 5, 6, 'R', 7, 'R', 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 16, 17, 18, 19, 20, 21, 'R', 22, 23, 24, 'R', 25]}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [00, 30, 93, 29, 78, 45],
+     team_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 'R', 9, 'R', 10, 'R', 11, 'R', 12, 'R', 13, 14, 'R', 15, 16, 'R', 17, 18, 19, 20, 'R', 21, 'R', 22, 23, 24, 'R', 25, 'R', 26, 'R', 27, 'R'],
+     opponent_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 'R', 7, 8, 'R', 9, 'R', 10, 11, 12, 'R', 13, 'R', 14, 'R', 15, 16, 'R', 17, 'R', 18, 19, 'R', 20, 21, 'R', 22, 23, 'R', 24, 'R', 25, 'R', 26, 'R', 27, 28]}
+  - {game: 3,
+     full: false,
+     serve: true,
+     include: true,
+     lineup: [11, 25, 29, 00, 38, 93],
+     team_scores: [1, 'R', 2, 3, 'R', 4, 'R', 5, 'R', 6, 7, 'R', 8, 'R', 9, 'R'],
+     opponent_scores: [1, 2, 'R', 3, 'R', 4, 5, 6, 7, 'R', 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 'R', 15]}
+
+match9: &match9
+  - opponent: 'Bumpin Somethin'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: true,
+     lineup: [9, 78, 38, 00, 30, 25],
+     team_scores: [1, 2, 'R', 3, 'R', 4, 'R', 5, 6, 'R', 7, 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 16, 17, 'R', 18, 19, 'R', 20, 21, 22, 23, 'R', 24, 25],
+     opponent_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 7, 'R', 8, 'R', 9, 10, 'R', 11, 12, 'R', 13, 14, 15, 16, 17, 18, 19, 'R', 20, 'R', 21, 22, 23, 'R']}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: true,
+     lineup: [23, 11, 00, 45, 93, 38],
+     team_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 10, 11, 'R', 12, 13, 'R', 14, 15, 16, 'R', 17, 18, 19, 'R'],
+     opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 6, 7, 'R', 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 'R', 16, 17, 'R', 18, 19, 'R', 20, 21, 22, 'R', 23, 24, 25]}
+  - {game: 3,
+     full: false,
+     serve: true,
+     include: true,
+     lineup: [93, 9, 78, 30, 23, 11],
+     team_scores: ['R', 1, 'R', 2, 3, 4, 5, 6, 'R', 7, 'R', 8, 9, 10, 'R', 11, 12, 'R'],
+     opponent_scores: [1, 2, 3, 'R', 4, 'R', 5, 'R', 6, 'R', 7, 8, 9, 10, 11, 12, 13, 'R', 14, 15]}
+
+match10: &match10
+  - opponent: 'Secret Service'
+  - {game: 1,
+     full: true,
+     serve: true,
+     include: false,
+     lineup: [25, 29, 00, 45, 93, 11],
+     team_scores: [],
+     opponent_scores: []}
+  - {game: 2,
+     full: true,
+     serve: false,
+     include: false,
+     lineup: [30, 25, 38, 78, 9, 93],
+     team_scores: [],
+     opponent_scores: []}
+  - {game: 3,
+     full: false,
+     serve: true,
+     include: false,
+     lineup: [93, 29, 00, 45, 78, 11],
+     team_scores: [],
+     opponent_scores: []}
+
+matches:
+  - *match1
+  - *match2
+  - *match3
+  - *match4
+  - *match5
+  - *match6
+  - *match7
+  - *match8
+  - *match9
+  - *match10
+

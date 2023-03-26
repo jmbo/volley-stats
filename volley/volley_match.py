@@ -1,4 +1,11 @@
 '''Volleyball Match module'''
+# TODO: add game validation logic
+## validate score swip-swap, score order, win by 2,
+## check if half or full game from scores reported
+## determine include based on validation
+## no need to require 'X' at end of scores
+## record final scored recorded and detect discrepancies
+
 from typing import List, TypedDict, Union
 
 from .volley_player import VolleyRoster
