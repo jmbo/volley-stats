@@ -5,6 +5,8 @@
 ## determine include based on validation
 ## no need to require 'X' at end of scores
 ## record final scored recorded and detect discrepancies
+## check serve alternates between games -- warn if otherwise
+## coed games, check lineup alternates between girl/boy
 
 from typing import List, TypedDict, Union
 
