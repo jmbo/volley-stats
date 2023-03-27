@@ -18,9 +18,33 @@ roster:
     - {name: Will,      status: sub, jersey: 14}
     - {name: Dr. Josh,  status: sub, jersey: -1}
 
+team1: &smash_bros
+  - name: 'Smash Bros'
+  - rank: 1
+team2: &net_def
+  - name: 'Net Defense'
+  - rank: 2
+team3: &pdr
+  - name: 'Please Dink Responsibly'
+  - rank: 3
+team4: &prior_service
+  - name: 'Prior Service'
+  - rank: 4
+team5: &lald
+  - name: 'Live and Let Dive'
+  - rank: 5
+team6: &tkabn
+  - name: 'To Kill a Blocking Nerd'
+  - rank: 6
+team7: &softer_serves
+  - name: 'Softer Serves'
+  - rank: 7
+team8: &exp_spikes
+  - name: 'Exponential Spikes'
+  - rank: 8
 
 match1: &match1
-  - opponent: 'Prior Service'
+  - opponent: *prior_service
   - {
      game: 1,
      full: true,
@@ -53,7 +77,7 @@ match1: &match1
     }
 
 match2: &match2
-  - opponent: 'Exponential Spikes'
+  - opponent: *exp_spikes
   - {
      game: 1,
      full: true,
@@ -87,7 +111,7 @@ match2: &match2
 
 ## NEED scores from work
 match3: &match3
-  - opponent: 'To Kill a Blocking Nerd'
+  - opponent: *tkabn
   - {
      game: 1,
      full: true,
@@ -120,7 +144,7 @@ match3: &match3
     }
 
 match4: &match4
-  - opponent: 'Live and Let Dive'
+  - opponent: *lald
   - {
      game: 1,
      full: true,
@@ -153,7 +177,7 @@ match4: &match4
     }
 
 match5: &match5
-  - opponent: 'Net Defense'
+  - opponent: *net_def
   - {
      game: 1,
      full: true,
@@ -187,7 +211,7 @@ match5: &match5
      }
 
 match6: &match6
-  - opponent: 'Please Dink Responsibly'
+  - opponent: *pdr
   - {
      game: 1,
      full: true,
@@ -220,7 +244,7 @@ match6: &match6
     }
 
 match7: &match7
-  - opponent: 'Smash Bros'
+  - opponent: *smash_bros
   - {
      game: 1,
      full: true,
@@ -256,7 +280,7 @@ match7: &match7
     }
 
 match8: &match8
-  - opponent: 'Prior Service'
+  - opponent: *prior_service
   - {
      game: 1,
      full: true,
@@ -290,7 +314,7 @@ match8: &match8
 
 ## forgot to get scores for this game... ???
 match9: &match9
-  - opponent: 'Exponential Spikes'
+  - opponent: *exp_spikes
   - {
      game: 1,
      full: true,
@@ -323,7 +347,7 @@ match9: &match9
     }
 
 match10: &match10
-  - opponent: 'To Kill a Blocking Nerd'
+  - opponent: *tkabn
   - {
      game: 1,
      full: true,

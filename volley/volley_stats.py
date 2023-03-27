@@ -50,14 +50,8 @@ class PlayerStats():
 
         obj = PlayerStats(self.jersey_num)
 
-        # TODO: try sum instead of add....
-        obj.rb_pm = list(map(add, self.rb_pm, other.rb_pm))
-        obj.rf_pm = list(map(add, self.rf_pm, other.rf_pm))
-        obj.cf_pm = list(map(add, self.cf_pm, other.cf_pm))
-        obj.lf_pm = list(map(add, self.lf_pm, other.lf_pm))
-        obj.lb_pm = list(map(add, self.lb_pm, other.lb_pm))
-        obj.cb_pm = list(map(add, self.cb_pm, other.cb_pm))
-        obj._rotation_pm = [obj.rb_pm, obj.rf_pm, obj.cf_pm, obj.lf_pm, obj.lb_pm, obj.cb_pm]
+        for i, _ in enumerate(obj._rotation_pm):
+            obj._rotation_pm[i] = list(map(add, self._rotation_pm[i], other._rotation_pm[i]))
 
         obj.front_row_pm = list(map(add, self.front_row_pm, other.front_row_pm))
         obj.back_row_pm = list(map(add, self.back_row_pm, other.back_row_pm))
@@ -295,17 +289,22 @@ def _print_stats(self: VolleyStats) -> str:
     msg += " % (Normalized) ".center(49)  + "|"   # 48
     msg += " % (Normalized) ".center(19)  + "|"   # 9
       #    "BR".center(8),         "|",  # 9
-    msg += " Pts/Serve "                  + "|"   # 9
-    msg += " Pts/Game "                   + "|\n" # 8
+    msg += " Pts/Serve "                  + "|"   # 11
+    msg += " Pts/Game "                   + "|"   # 10
+    msg += " PM Diff "                    + "|"   # 9
+    msg +=  "\n"
 
     msg += f"{' ':>17}  {' ':>13}|{' ':>17}|{' ':>11}|"
     msg += "   RB      RF      CF      LF      LB      CB    |"
     msg += "BR".center(9) + "|" +  "FR".center(9) + "|"
-    msg += f"{' ':>11}|{' ':10}|\n"
+    msg += f"{' ':>11}|{' ':10}|{' ':9}|"
+    msg += "\n"
 
     # sort dictionary by ppg
     # stats = dict(sorted(self.match_stats.items(), key=lambda x:x[1]['ppg'], reverse=True))
-    stats = dict(sorted(self.player_stats.items(), key=lambda x:x[1].points_per_game, reverse=True))
+    # stats = dict(sorted(self.player_stats.items(), key=lambda x:x[1].points_per_game, reverse=True))
+    stats = dict(sorted(self.player_stats.items(), \
+                        key=lambda x:(x[1].pm_stats[0] + x[1].pm_stats[1]), reverse=True))
 
     for item in stats.items():
         num = item[0]
@@ -325,6 +324,7 @@ def _print_stats(self: VolleyStats) -> str:
         msg += f"+{stat[0]:>2}/-{abs(stat[1]):<2}"                                      + " | "
         msg += f"{player.points_per_serve:9.2f}"                                        + " | "
         msg += f"{player.points_per_game:8.2f}"                                         + " | "
+        msg += f"{player.pm_stats[0] + player.pm_stats[1]:7}"                           + " | "
         msg += "\n"
 
     return msg
