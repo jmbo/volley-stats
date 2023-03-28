@@ -47,8 +47,8 @@ class VolleyGame():
         '''Calculates game stats for this game.
         '''
         # calculate game final scores
-        self.game_stats.add_final_score(max([x for x in self.team_scores if str(x).isdigit()]),
-                                        max([x for x in self.oppo_scores if str(x).isdigit()]))
+        self.game_stats.add_final_score(max([int(x) for x in self.team_scores if str(x).isdigit()]),
+                                        max([int(x) for x in self.oppo_scores if str(x).isdigit()]))
 
         ### PROCESS Team Scored Points Against Opponent
         # initialize team rotation
@@ -57,9 +57,6 @@ class VolleyGame():
             # rotate the rotation back 1 if we start receiving
             rotation = rotation[-1:] + rotation[:-1]
             assert int(self.team_scores[0])
-
-        # team_scores: ['R', 1, 2, 'R', 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 14, 'R']                     serve_start = true
-        # team_scores: [1, 2, 'R', 3, 'R', 4, 5, 6, 'R', 7, 8, 'R', 9, 'R', 10, 'R', 11, 12, 13, 'R', 14, 'R', 15, 16, 'R', 17, 'R']    serve_start = true  || false
 
         sco : List[int] = []
         start = self.serve_start
@@ -181,4 +178,4 @@ class VolleySeason(object):
     def print_match(self, match : int) -> None:
         """Function prints the provided Volleyball's Match Game information and Statistics."""
 
-        self.matches[match].print_stats(self.roster)
+        # self.matches[match].print_stats(self.roster)
