@@ -16,7 +16,7 @@ roster:
 
     - {name: Jacob,     status: sub, jersey: 11}
     - {name: Will,      status: sub, jersey: 14}
-    - {name: Dr. Josh,  status: sub, jersey: -1}
+    - {name: Dr. Josh,  status: sub, jersey: 8}
 
 team1: &smash_bros
   - name: 'Smash Bros'
@@ -109,7 +109,6 @@ match2: &match2
      final_score: [25, 9]
     }
 
-## NEED scores from work
 match3: &match3
   - opponent: *tkabn
   - {
@@ -120,7 +119,7 @@ match3: &match3
      lineup: [],
      team_scores: [],
      opponent_scores: [],
-     final_score: []
+     final_score: [31, 29]
     }
   - {
      game: 2,
@@ -130,7 +129,7 @@ match3: &match3
      lineup: [],
      team_scores: [],
      opponent_scores: [],
-     final_score: []
+     final_score: [25, 11]
     }
   - {
      game: 3,
@@ -140,7 +139,7 @@ match3: &match3
      lineup: [],
      team_scores: [],
      opponent_scores: [],
-     final_score: []
+     final_score: [15, 12]
     }
 
 match4: &match4
@@ -186,7 +185,37 @@ match5: &match5
      lineup: [29, 38, 12, 00, 44, 25],
      team_scores: ['R', 1, 2, 'R', 3, 4, 'R', 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 'R', 10, 'R'],
      opponent_scores: [1, 2, 'R', 3, 4, 5, 6, 'R', 7, 'R', 8, 9, 'R', 10, 11, 12, 13, 'R', 14, 'R', 15, 16, 'R', 17, 18, 19, 20, 21, 22, 23, 24, 'R', 25],
-     final_score: [10, 25]
+     final_score: [10, 25],
+     detailed: {
+      untouched_balls: 7,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Jose': 1, 'Markus': 1, 'Holly': 1},
+      unreturned_serves: {'Markus': 1, 'Pineapple': 1},
+
+      shanked_receives: {'Jose': 4, 'Madysen': 3, 'Markus': 1, 'Holly': 3},
+      good_receives: {'Madysen': 3, 'Paul': 4, 'Jose': 4, 'Markus': 2, 'Pineapple': 3, 'Holly': 4},
+      digs: { 'Pineapple': 1, 'Markus': 1},
+
+      bad_pass: {'Jose': 1, 'Madysen': 1},
+      bad_sets: {'Holly': 1},
+      doubles: {},
+
+      out_balls: { 'Jose': 1 },
+      into_net: {'Paul': 1 },
+
+      kills: {'Pineapple': 2, 'Markus': 1},
+
+      blocks: { },
+
+      net_touches: { },
+      positional_faults: { },
+
+      errors: {'Paul': 2, 'Pineapple': 1},
+      recoveries: {'Markus': 1, 'Pineapple': 3}
+
+      }
     }
   - {
      game: 2,
@@ -196,7 +225,36 @@ match5: &match5
      lineup: [9, 00, 12, 29, 44, 38],
      team_scores: [1, 2, 3, 'R', 4, 'R', 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 'R'],
      opponent_scores: ['R', 1, 2, 3, 'R', 4, 5, 6, 7, 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 'R', 15, 16, 17, 'R', 18, 'R', 19, 'R', 20, 21, 22, 23, 24, 25],
-     final_score: [13, 25]
+     final_score: [13, 25],
+     detailed: {
+      untouched_balls: 7,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Ian': 1, 'Jose': 1, 'Holly': 1},
+      unreturned_serves: {'Jose': 1},
+
+      shanked_receives: {'Holly': 4, 'Pineapple': 1, 'Markus': 1, 'Paul': 2},
+      good_receives: {'Jose': 7, 'Holly': 5, 'Markus': 6, 'Paul': 1, 'Pineapple': 1, 'Ian': 2},
+      digs: {'Holly': 1, 'Paul': 1},
+
+      bad_pass: {},
+      bad_sets: {},
+      doubles: {},
+
+      out_balls: {'Jose': 4, 'Markus': 1, 'Pineapple': 1},
+      into_net: {'Markus': 1},
+
+      kills: {'Ian': 2, 'Pineapple': 1, 'Paul': 1, 'Markus': 1},
+
+      blocks: {'Markus': 1},
+
+      net_touches: {},
+      positional_faults: {},
+
+      errors: {'Paul': 1},
+      recoveries: {}
+      }
     }
   - {
      game: 3,
@@ -207,7 +265,36 @@ match5: &match5
      team_scores: ['R', 1, 'R', 2, 3, 'R', 4, 'R', 5, 'R', 6, 'R', 7, 'R', 8, 'R'],
      # score corrected by video evidence
      opponent_scores: [1, 2, 3, 4, 5, 6, 'R', 7, 'R', 8, 9, 'R', 10, 'R', 11, 12, 13, 14, 15, 16, 'R', 17, 'R', 18, 19, 20, 21, 22, 23, 'R', 24],
-     final_score: [8, 25]
+     final_score: [8, 25],
+     detailed: {
+      untouched_balls: 5,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Markus': 2, 'Pineapple': 1, 'Ian': 1},
+      unreturned_serves: {'Pineapple': 1},
+
+      shanked_receives: {'Markus': 2, 'Paul': 1, 'Pineapple': 1, 'Ian': 2},
+      good_receives: {'Holly': 3, 'Markus': 2, 'Ian': 2, 'Paul': 6, 'Madysen': 2, 'Pineapple': 5},
+      digs: {'Paul': 1, 'Holly': 1},
+
+      bad_pass: {},
+      bad_sets: {'Madysen': 4},
+      doubles: {},
+
+      out_balls: {'Paul': 1, 'Madysen': 1, 'Pineapple': 1},
+      into_net: {'Pineapple': 1},
+
+      kills: {'Pineapple': 1, 'Ian': 1, 'Paul': 1, 'Markus': 1},
+
+      blocks: {},
+
+      net_touches: {'Markus': 1},
+      positional_faults: {},
+
+      errors: {'Paul': 1, 'Ian': 1},
+      recoveries: {'Markus': 1}
+      }
      }
 
 match6: &match6
@@ -220,7 +307,36 @@ match6: &match6
      lineup: [44, 12, 29, 38, 25, 9],
      team_scores: [1, 'R', 2, 'R', 3, 4, 'R', 5, 'R', 6, 'R', 7, 8, 'R', 9, 10, 'R', 11, 12, 'R', 13, 'R', 14, 15, 'R', 16, 'R'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 6, 'R', 7, 8, 9, 10, 'R', 11, 12, 13, 'R', 14, 'R', 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 21, 22, 23, 24, 'R', 25],
-     final_score: [16, 25]
+     final_score: [16, 25],
+     detailed: {
+      untouched_balls: 5,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Paul': 1, 'Jose': 1},
+      unreturned_serves: {'Paul': 1},
+
+      shanked_receives: {'Jose': 5, 'Pineapple': 2, 'Paul': 1, 'Markus': 3},
+      good_receives: {'Markus': 10, 'Jose': 7, 'Madysen': 2, 'Ian': 7, 'Pineapple': 11, 'Paul': 3},
+      digs: {'Pineapple': 3, 'Markus': 1},
+
+      bad_pass: {},
+      bad_sets: {},
+      doubles: {'Markus': 1},
+
+      out_balls: {'Markus': 1},
+      into_net: {'Paul': 1, 'Markus': 1, 'Madysen': 1},
+
+      kills: {'Markus': 4, 'Jose': 1, 'Pineapple': 2, 'Ian': 1, 'Paul': 1},
+
+      blocks: {},
+
+      net_touches: {},
+      positional_faults: {},
+
+      errors: {'Jose': 1, 'Paul': 1},
+      recoveries: {}
+      }
     }
   - {
      game: 2,
@@ -230,7 +346,36 @@ match6: &match6
      lineup: [44, 12, 9, 38, 25, 29],
      team_scores: [1, 'R', 2, 'R', 3, 4, 5, 6, 'R', 7, 'R', 8, 'R', 9, 'R', 10, 11, 12, 13, 'R', 14, 'R', 15, 16, 'R', 17, 'R', 18, 19, 'R'],
      opponent_scores: [1, 2, 3, 4, 'R', 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 14, 15, 'R', 16, 'R', 17, 18, 19, 'R', 20, 21, 22, 'R', 23, 24, 25],
-     final_score: [19, 25]
+     final_score: [19, 25],
+     detailed: {
+      untouched_balls: 7,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Paul': 1, 'Markus': 1, 'Madysen': 1},
+      unreturned_serves: {'Ian': 3, 'Paul': 2},
+
+      shanked_receives: {'Pineapple': 2, 'Paul': 3, 'Jose': 3, 'Markus': 1},
+      good_receives: {'Pineapple': 8, 'Markus': 4, 'Madysen': 7, 'Jose': 4, 'Paul': 3, 'Ian': 5},
+      digs: {},
+
+      bad_pass: {},
+      bad_sets: {'Madysen': 1, 'Ian': 1},
+      doubles: {},
+
+      out_balls: {'Madysen': 2},
+      into_net: {'Pineapple': 2},
+
+      kills: {'Markus': 5, 'Pineapple': 1, 'Ian': 1},
+
+      blocks: {},
+
+      net_touches: {'Markus': 1},
+      positional_faults: {},
+
+      errors: {},
+      recoveries: {'Pineapple': 1, 'Madysen': 1}
+      }
     }
   - {
      game: 3,
@@ -240,7 +385,36 @@ match6: &match6
      lineup: [44, 12, 9, 38, 25, 29],
      team_scores: [1, 'R', 2, 3, 'R', 4, 'R', 5, 6, 'R', 7, 'R', 8, 'R', 9, 'R', 10, 11, 'R'],
      opponent_scores: [1, 2, 'R', 3, 'R', 4, 5, 6, 7, 8, 'R', 9, 10, 11, 'R', 12, 'R', 13, 14, 'R', 15, 16, 17, 18, 'R', 19, 20, 21, 22, 23, 24, 'R', 25],
-     final_score: [11, 25]
+     final_score: [11, 25],
+     detailed: {
+      untouched_balls: 5,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {},
+      unreturned_serves: {},
+
+      shanked_receives: {'Madysen': 2, 'Ian': 1, 'Paul': 3, 'Jose': 4, 'Pineapple': 2, 'Markus': 1},
+      good_receives: {'Markus': 3, 'Jose': 5, 'Ian': 3, 'Madysen': 6, 'Pineapple': 14, 'Paul': 2},
+      digs: {'Jose': 1},
+
+      bad_pass: {},
+      bad_sets: {'Madysen': 1},
+      doubles: {'Paul': 1, 'Markus': 1},
+
+      out_balls: {'Pineapple': 1},
+      into_net: {'Pineapple': 2, 'Markus': 1, 'Madysen': 1},
+
+      kills: {'Pineapple': 2, 'Jose': 1, 'Markus': 1},
+
+      blocks: {},
+
+      net_touches: {},
+      positional_faults: {},
+
+      errors: {},
+      recoveries: {'Jose': 1, 'Pineapple': 1}
+      }
     }
 
 match7: &match7
@@ -312,7 +486,6 @@ match8: &match8
      final_score: [4, 15]
     }
 
-## forgot to get scores for this game... ???
 match9: &match9
   - opponent: *exp_spikes
   - {
@@ -323,7 +496,7 @@ match9: &match9
      lineup: [25, 12, 29, 00, 44, 9],
      team_scores: [1, 2, 3, 4, 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 'R', 10, 'R', 11, 'R', 12, 'R', 13, 'R', 14, 15, 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R', 21, 'R', 22, 23, 'R', 24, 'R'],
      opponent_scores: [1, 'R', 2, 3, 'R', 4, 'R', 5, 'R', 6, 'R', 7, 'R', 8, 9, 'R', 10, 11, 12, 'R', 13, 14, 'R', 15, 16, 'R', 17, 18, 19, 'R', 20, 'R', 21, 'R', 22, 'R', 23, 24, 'R', 25, 26],
-     final_score: []
+     final_score: [24, 26]
     }
   - {
      game: 2,
@@ -331,9 +504,9 @@ match9: &match9
      serve: false,
      include: true,
      lineup: [25, 12, 29, 00, 44, 9],
-     team_scores: [1, 'R', 2, 'R', 3, 'R', 4, 5, 6, 'R', 7, 'R', 8, 'R', 9, 'R', 10, 11, 'R', 12, 13, 'R', 14, 15, 'R', 16, 17, 18 , 'R', 19, 'R', 20, 'R', 21, 22, 23, 24, 26],
+     team_scores: [1, 'R', 2, 'R', 3, 'R', 4, 5, 6, 'R', 7, 'R', 8, 'R', 9, 'R', 10, 11, 'R', 12, 13, 'R', 14, 15, 'R', 16, 17, 18 , 'R', 19, 'R', 20, 'R', 21, 22, 23, 24, 25],
      opponent_scores: ['R', 1, 'R', 2, 3, 'R', 4, 5, 6, 'R', 7, 8, 'R', 9, 10, 'R', 11, 'R', 12, 'R', 13, 14, 'R', 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R'],
-     final_score: []
+     final_score: [25, 20]
     }
   - {
      game: 3,
@@ -343,7 +516,7 @@ match9: &match9
      lineup: [25, 12, 29, 00, 44, 9],
      team_scores: [1, 'R', 2, 3, 4, 5, 6, 'R', 7, 8, 9, 'R', 10, 11, 'R', 12, 13, 14, 'R', 15],
      opponent_scores: [1, 2, 'R', 3, 4, 'R', 5, 'R', 6, 'R', 7, 'R'],
-     final_score: []
+     final_score: [15, 12]
     }
 
 match10: &match10
