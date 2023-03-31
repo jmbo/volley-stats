@@ -463,7 +463,36 @@ match8: &match8
      lineup: [38, 12, 00, 30, 9, 25],
      team_scores: ['R', 1, 2, 'R', 3, 4, 'R', 5, 6, 'R', 7, 'R', 8, 'R', 9, 10, 'R', 11, 'R', 12, 13, 14, 15, 16, 17, 'R', 18, 'R', 19, 'R', 20, 'R', 21, 22, 23, 24, 25, 'R'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 'R', 5, 6, 7, 8, 'R', 9, 10, 11, 'R', 12, 13, 'R', 14, 15, 16, 'R', 17, 18, 'R', 19, 20, 'R', 21, 22, 'R', 23, 'R', 24, 25, 'R', 26, 27],
-     final_score: [25, 27]
+     final_score: [25, 27],
+     detailed: {
+      untouched_balls: 5,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Markus': 2, 'Pineapple': 1, 'Lee': 1},
+      unreturned_serves: {'Holly': 1, 'Markus': },
+
+      shanked_receives: {'Pineapple': 1, 'Lee': 3, 'Markus': 3, 'Ian': 1},
+      good_receives: {'Ian': 3, 'Pineapple': 9, 'Lee': 3, 'Holly': 6, 'Markus': 7, 'Madysen': 7},
+      digs: {'Lee': 2},
+
+      bad_pass: {},
+      bad_sets: {'Pineapple': 1, 'Madysen': 2},
+      doubles: {'Pineapple': 1, 'Lee': 1},
+
+      out_balls: {'Holly': 1, 'Markus': 1, 'Pineapple': 2, 'Lee': 1},
+      into_net: {'Madysen': 1},
+
+      kills: {'Lee': 3, 'Markus': 2, 'Pineapple': 2, 'Ian': 1},
+
+      blocks: {},
+
+      net_touches: {'Lee': 1},
+      positional_faults: {},
+
+      errors: {},
+      recoveries: {}
+      }
     }
   - {
      game: 2,
@@ -473,7 +502,37 @@ match8: &match8
      lineup: [12, 25, 38, 30, 00, 29],
      team_scores: [1, 'R', 2, 'R', 3, 4, 'R', 5, 'R', 6, 7, 8, 'R', 9, 10, 'R', 11, 'R', 12, 'R', 13, 14, 15, 16, 17, 18, 19, 'R', 20, 'R', 21, 'R'],
      opponent_scores: ['R', 1, 'R', 2, 3, 'R', 4, 5, 'R', 6, 7, 8, 9, 10, 'R', 11, 'R', 12, 13, 14, 15, 'R', 16, 'R', 17, 18, 'R', 19, 'R', 20, 21, 22, 'R', 23, 24, 25],
-     final_score: [21, 25]
+     final_score: [21, 25],
+     # these stats are incomplete -- gopro died towards the end of the game
+     detailed: {
+      untouched_balls: 2,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {},
+      unreturned_serves: {'Markus': 3},
+
+      shanked_receives: {'Jose': 4, 'Holly': 1, 'Madysen': 2, 'Lee': 2, 'Markus': 2},
+      good_receives: {'Lee': 5, 'Holly': 4, 'Madysen': 7, 'Pineapple': 9, 'Jose': 2, 'Markus': 3},
+      digs: {'Lee': 1},
+
+      bad_pass: {},
+      bad_sets: {'Holly': 1},
+      doubles: {'Holly': 1},
+
+      out_balls: {'Markus': 2, 'Pineapple': 2, 'Jose': 1},
+      into_net: {'Pineapple': 1, 'Markus': 1},
+
+      kills: {'Markus': 4, 'Lee': 5, 'Pineapple': 1, 'Jose': 1},
+
+      blocks: {'Lee': 2},
+
+      net_touches: {'Markus': 1},
+      positional_faults: {},
+
+      errors: {},
+      recoveries: {'Pineapple': 2}
+      }
     }
   - {
      game: 3,
