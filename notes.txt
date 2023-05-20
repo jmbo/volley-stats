@@ -2,15 +2,15 @@ on serving order
 Match 2
 G1 [Ian, Pooja, Jose, Holly, Reid, Reba]
 G2 [Madysen, Markus, Rasheda, Ian, Pooja, Lee]
-G3 [Holly, Lee, Reba, Jose, Rashida, Reid]
+G3 [Holly, Lee, Reba, Jose, Rasheda, Reid]
 
 Match 3
-G1 [Pooja, Markus, Rashida, Reid, Reba, Jacob]
-G2 [Holly, Lee, Madysen, Ian, Rashida, Jose]
+G1 [Pooja, Markus, Rasheda, Reid, Reba, Jacob]
+G2 [Holly, Lee, Madysen, Ian, Rasheda, Jose]
 G3 [Markus, Holly, Lee, Madysen, Jacob, Reba]
 
-G1 [Reba, Markus, Rashida, Lee, Holly, Jacob]
-G2 [Pooja, Ian, Madysen, Reid, Rashida, Jose]
+G1 [Reba, Markus, Rasheda, Lee, Holly, Jacob]
+G2 [Pooja, Ian, Madysen, Reid, Rasheda, Jose]
 G3 [Markus, Holly, Lee, Madysen, Jacob, Reba]
 
 Match 4
@@ -41,7 +41,7 @@ G3 [Pooja, Markus, Rasheda, Ian, Madysen, Jose]
 [Madysen Lee Holly]
 
 ************************************************************************************************************************
-************************************************************************************
+********************************************************************************************
 				MATCH 1 STATS -- OPPONENT: Volleynomials
 ************************************************************************************
  ---------- NET ---------    ---------- NET ---------    ---------- NET ---------
@@ -63,10 +63,39 @@ Serve Runs:
 *** +/- MATCH STATS ***
 
 *** +/- MATCH STATS ***
------ Name ----- => Total Games | +/- Stats |                  % (Normalized)                 |   % (Normalized)  |
-                                |           |   RB      RF      CF      LF      LB      CB    |    BR   |    FR   |
+----- Name ----- | +/- Stats |                  % (Normalized)                 |   % (Normalized)  |
+                 |           |   RB      RF      CF      LF      LB      CB    |    BR   |    FR   |
 
 ----- Name ----- => Total Games | Serve Rotations | Pts/Serve | Pts/Game | +/- Diff |
                                 |                 |           |          |
 
 *** BACKROW / FRONTROW STATS ***
+
+
+******************************************************************************************|
+                        MATCH 1 STATS -- OPPONENT: Volleynomials                          |
+******************************************************************************************|
+   ---------- NET ----------     ---------- NET ----------     ---------- NET ----------  |
+   _                       _     _                       _     _                       _  |
+  | Madysen Madysen Madysen |   | Madysen Madysen Madysen |   | Madysen Madysen Madysen |
+  |                         |   |                         |   |                         |
+  |_PApple Madysen    Ian  _|   |_Pineapp Pineapp Pineapp_|   |_Pineapp Pineapp Pineapp_|
+
+----- Name ----| Total | T Det || Serve | Miss  |  Out  | Into | Bad  | Net T  | Errors |
+               | Games | Games || Rots. | Serve | Balls | Net  | Pass | (Tot.) | (Tot.) |
+===============+=======+=================+===========+==========+==========
+(XX) Pineapple |
+
+----- Name ----| Total | Serve || Unret | Recov |  Pts/ | Pts/ |  +/-  |
+               | Games | Rots. || Serve |       | Serve | Game | Stats |
+===============+=======+=================+===========+==========+==========
+(XX) Pineapple |
+
+----- Name ----||                  % (Normalized)                 |   % (Normalized)  |
+               ||   RB      RF      CF      LF      LB      CB    |    BR   |    FR   |
+===============+========+=======+=======+=======+=======+=======+==========+==========
+(XX) Pineapple |
+
+
+
+

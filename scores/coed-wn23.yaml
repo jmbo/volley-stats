@@ -34,7 +34,8 @@ match1: &match1
      lineup: [23, 38, 78, 29, 00, 11],
      team_scores: ['R', 1, 'R', 2, 'R', 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 'R', 15, 'R'],
      opponent_scores: [1, 'R', 2, 3, 4, 5, 6, 7, 'R', 8, 9, 10, 'R', 11, 12, 'R', 13, 'R', 14, 15, 'R', 16, 17, 18, 19, 'R', 20, 21, 'R', 22, 23, 'R', 24, 'R', 25, 'X'],
-     final_score: [15, 25]
+     final_score: [15, 25],
+     detailed:
     }
   - {
      game: 2,
@@ -44,7 +45,8 @@ match1: &match1
      lineup: [38, 00, 29, 25, 9, 93],
      team_scores: [1, 2, 3, 'R', 4, 'R', 5, 'R', 6, 'R', 7, 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 15, 16, 'R', 17, 18, 19, 20, 'R', 21, 22, 23, 24, 'R', 25, 'X'],
      opponent_scores: [1, 'R', 2, 'R', 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 9, 10, 11, 'R', 12, 13, 14, 15, 'R', 16, 'R'],
-     final_score: [25, 16]
+     final_score: [25, 16],
+     detailed:
     }
   - {
      game: 3,
@@ -54,7 +56,8 @@ match1: &match1
      lineup: [93, 11, 23, 45, 78, 30],
      team_scores: ['R', 1, 'R', 2, 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 9, 'R'],
      opponent_scores: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 16, 17, 'R', 18, 'R', 19, 20, 21, 22, 23, 'R', 24, 'R', 24, 'X'],
-     final_score: [9, 25]
+     final_score: [9, 25],
+     detailed:
     }
 
 match2: &match2
@@ -67,7 +70,8 @@ match2: &match2
      lineup: [9, 23, 29, 00, 45, 78],
      team_scores: [1, 'R', 2, 3, 'R', 4, 5, 6, 'R', 7, 'R', 8, 'R', 9, 10, 'R', 11, 'R', 12, 13, 'R', 14, 15, 16, 17, 18, 'R', 19, 'R', 20, 21, 22, 23, 24, 25, 'X'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 'R', 6, 'R', 7, 8, 9, 10, 'R', 11, 12, 'R', 13, 'R', 14, 'R', 15, 16, 17, 18, 19, 'R', 20, 21, 22, 23, 'R'],
-     final_score: [25, 23]
+     final_score: [25, 23],
+     detailed:
     }
   - {
      game: 2,
@@ -77,7 +81,8 @@ match2: &match2
      lineup: [11, 25, 38, 00, 30, 23],
      team_scores: [1, 'R', 2, 3, 'R', 4, 5, 'R', 6, 7, 'R', 8, 'R', 9, 'R', 10, 'R', 11, 12, 13, 14, 'R', 15, 'R', 16, 'R', 17, 'R', 18, 'R', 19, 'R', 20, 'R'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 'R', 5, 6, 7, 'R', 8, 9, 10, 'R', 11, 12, 'R', 13, 'R', 14, 'R', 15, 16, 17, 'R', 18, 'R', 19, 'R', 20, 21, 22, 'R', 23, 'R', 24, 'R', 25, 'X'],
-     final_score: [20, 25]
+     final_score: [20, 25],
+     detailed:
     }
   - {
      game: 3,
@@ -87,7 +92,8 @@ match2: &match2
      lineup: [45, 78, 29, 25, 9, 23],
      team_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 10, 'R', 11, 12, 'R', 13, 14, 15, 16, 'R', 17, 'R', 18, 19, 20, 21, 'R', 22, 'R'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 'R', 5, 6, 7, 8, 9, 10, 'R', 11, 12, 'R', 13, 14, 'R', 15, 'R', 16, 'R', 17, 18, 19, 20, 21, 'R', 22, 23, 'R', 24, 'X'],
-     final_score: [22, 24]
+     final_score: [22, 24],
+     detailed:
     }
 
 match3: &match3
@@ -100,7 +106,8 @@ match3: &match3
      lineup: [38, 25, 30, 93, 11, 23],
      team_scores: [1, 'R', 2, 3, 'R', 4, 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 11, 'R'],
      opponent_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 8, 9, 10, 11, 12, 13, 'R', 14, 15, 'R', 16, 17, 18, 19, 20, 21, 'R', 22, 23, 'R', 24, 25, 'X'],
-     final_score: [11, 25]
+     final_score: [11, 25],
+     detailed:
     }
   - {
      game: 2,
@@ -110,7 +117,8 @@ match3: &match3
      lineup: [45, 23, 29, 78, 9, 00],
      team_scores: ['R', 1, 'R', 2, 3, 4, 5, 6, 7, 8, 'R', 9, 10, 11, 'R', 12, 'R', 13, 'R', 14, 15, 'R', 16, 17, 'R', 18, 19, 'R', 20, 21, 'R', 22, 23, 24, 'R', 25, 'X'],
      opponent_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 'R', 9, 10, 'R', 11, 12, 'R', 13, 14, 'R', 15, 'R', 16, 17, 'R', 18, 'R', 19, 'R', 20, 21, 22, 'R'],
-     final_score: [25, 22]
+     final_score: [25, 22],
+     detailed:
     }
   - {
      game: 3,
@@ -120,7 +128,8 @@ match3: &match3
      lineup: [11, 93, 29, 00, 30, 78],
      team_scores: [1, 2, 'R', 3, 4, 5, 'R', 6, 7, 8, 'R', 9, 'R', 10, 'R'],
      opponent_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 'R', 15, 'X'],
-     final_score: [10, 15]
+     final_score: [10, 15],
+     detailed:
     }
 
 match4: &match4
@@ -133,7 +142,8 @@ match4: &match4
      lineup: [93, 45, 78, 9, 23, 11],
      team_scores: [1, 2, 'R', 3, 'R', 4, 5, 6, 7, 'R', 8, 'R', 9, 'R', 10, 'R', 11, 'R', 12, 'R', 13, 'R', 14, 'R'],
      opponent_scores: ['R', 1, 2, 'R', 3, 4, 5, 6, 'R', 7, 8, 'R', 9, 10, 'R', 11, 12, 13, 'R', 14, 15, 'R', 16, 17, 18, 'R', 19, 'R', 20, 21, 22, 'R', 23, 24, 25, 'X'],
-     final_score: [14, 25]
+     final_score: [14, 25],
+     detailed:
     }
   - {
      game: 2,
@@ -143,7 +153,8 @@ match4: &match4
      lineup: [25, 29, 78, 38, 23, 30],
      team_scores: [1, 'R', 2, 'R', 3, 'R', 4, 'R', 5, 'R', 6, 7, 8, 'R', 9, 10, 11, 'R', 12, 13, 14, 15, 16, 17, 18, 'R', 19, 20, 21, 22, 'R', 23, 'R', 24, 'R', 25, 'R', 26, 27, 'R', 28, 'X'],
      opponent_scores: [1, 2, 'R', 3, 4, 5, 6, 7, 8, 9, 10, 11, 'R', 12, 13, 'R', 14, 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R', 21, 'R', 22, 'R', 23, 24,'R', 25, 'R', 26, 'R'],
-     final_score: [28, 26]
+     final_score: [28, 26],
+     detailed:
     }
   - {
      game: 3,
@@ -153,7 +164,8 @@ match4: &match4
      lineup: [93, 29, 25, 9, 78, 38],
      team_scores: [1, 2, 'R', 3, 'R', 4, 'R'],
      opponent_scores: [1, 2, 3, 4, 5, 6, 7, 'R', 8, 'R', 9, 10, 11, 12, 13, 14, 'R', 15, 'X'],
-     final_score: [4, 15]
+     final_score: [4, 15],
+     detailed:
     }
 
 match5: &match5
@@ -166,7 +178,8 @@ match5: &match5
      lineup: [38, 23, 30, 00, 45, 93],
      team_scores: [1, 2, 'R', 3, 'R', 4, 'R', 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 12, 13, 14, 'R', 15, 'R', 16, 17, 'R', 18, 'R', 19, 'R', 20, 'R', 21, 'R', 22, 'R'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 'R', 6, 7, 'R', 8, 9, 10, 'R', 11, 'R', 12, 'R', 13, 'R', 14, 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R', 21, 22, 'R', 23, 24, 25],
-     final_score: [22, 25]
+     final_score: [22, 25],
+     detailed:
     }
   - {
      game: 2,
@@ -176,7 +189,8 @@ match5: &match5
      lineup: [78, 9, 25, 38, 00, 11],
      team_scores: [1, 2, 'R', 3, 4, 5, 'R', 6, 'R', 7, 'R', 8, 9, 10, 11, 'R', 12, 13, 14, 'R', 15, 'R', 16, 'R', 17, 18, 'R'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 6, 7, 8, 'R', 9, 10, 11, 12, 13, 14, 15, 16, 'R', 17, 18, 'R', 19, 20, 'R', 21, 'R', 22, 'R', 23, 'R', 24, 25],
-     final_score: [18, 25]
+     final_score: [18, 25],
+     detailed:
     }
   - {
      game: 3,
@@ -186,7 +200,8 @@ match5: &match5
      lineup: [25, 9, 93, 45, 23, 30],
      team_scores: ['R', 1, 'R', 2, 'R', 3, 4, 5, 'R', 6, 7, 'R', 8, 9, 'R', 10, 'R', 11, 'R', 12, 13, 14, 'R'],
      opponent_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 9, 10, 11, 12, 13, 14, 'R', 15, 16, 17, 'R', 18, 'R', 19, 20, 21, 'R', 22, 23, 'R', 24, 'R', 25],
-     final_score: [14, 25]
+     final_score: [14, 25],
+     detailed:
     }
 
 match6: &match6
@@ -199,7 +214,36 @@ match6: &match6
      lineup: [25, 45, 00, 11, 78, 9],
      team_scores: [1, 2, 'R', 3, 4, 5, 'R', 6, 7, 8, 9, 10, 'R', 11, 'R', 12, 13, 14, 15, 'R', 16, 'R', 17, 'R', 18, 19, 'R', 20, 'R', 21, 22, 'R', 23, 24, 25, 'R', 26, 27],
      opponent_scores: [1, 'R', 2, 'R', 3, 'R', 4, 'R', 5, 6, 7, 8, 'R', 9, 10, 11, 12, 13, 'R', 14, 15, 16, 'R', 17, 'R', 18, 19, 'R', 20, 21, 22, 23, 24, 'R', 25],
-     final_score: [27, 25]
+     final_score: [27, 25],
+     detailed: {
+      untouched_balls: 5,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Reid': 2, 'Holly': 1, 'Jacob': 1},
+      unreturned_serves: {'Madysen': 1, 'Holly': 3, 'Rasheda': 3, 'Jacob': 1, 'Ian': 1},
+
+      shanked_receives: {'Rasheda': 3, 'Jacob': 2, 'Ian': 1, 'Holly': 2},
+      good_receives: {'Ian': 3, 'Holly': 10, 'Rasheda': 7, 'Jacob': 10, 'Madysen': 9, 'Reid': 3},
+      digs: {},
+
+      bad_pass: {'Reid': 2},
+      bad_sets: {'Madysen': 3, 'Reid': 2},
+      doubles: {},
+
+      out_balls: {'Jacob': 1, 'Rasheda': 1},
+      into_net: {'Ian': 1, 'Rasheda': 1},
+
+      kills: {'Jacob': 2, 'Rasheda': 1, 'Ian': 2, 'Holly': 2},
+
+      blocks: {},
+
+      net_touches: {},
+      positional_faults: {},
+
+      errors: {},
+      recoveries: {}
+      }
     }
   - {
      game: 2,
@@ -209,7 +253,36 @@ match6: &match6
      lineup: [9, 78, 38, 00, 30, 25],
      team_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 9, 10, 11, 12, 13, 'R', 14, 15, 16, 'R', 17, 'R', 18, 19, 20, 'R', 21, 22, 23, 24, 25],
      opponent_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 'R', 9, 'R', 10, 'R', 11, 'R', 12, 'R', 13, 14, 15, 16, 'R'],
-     final_score: [25, 16]
+     final_score: [25, 16],
+     detailed: {
+      untouched_balls: 2,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Markus': 1, 'Jose': 1},
+      unreturned_serves: {'Ian': 2, 'Markus': 2, 'Holly': 4, 'Jose': 1, 'Rasheda': 2},
+
+      shanked_receives: {'Jose': 3, 'Rasheda': 1, 'Ian': 1, 'Markus': 1, 'Madysen': 1},
+      good_receives: {'Markus': 5, 'Holly': 5, 'Madysen': 7, 'Rasheda': 7, 'Ian': 7, 'Jose': 3},
+      digs: {},
+
+      bad_pass: {},
+      bad_sets: {'Rasheda': 1},
+      doubles: {},
+
+      out_balls: {'Markus': 1, 'Jose': 1},
+      into_net: {'Markus': 1},
+
+      kills: {'Holly': 2, 'Ian': 1, 'Markus': 4},
+
+      blocks: {},
+
+      net_touches: {},
+      positional_faults: {},
+
+      errors: {'Markus': 1},
+      recoveries: {}
+      }
     }
   - {
      game: 3,
@@ -219,7 +292,36 @@ match6: &match6
      lineup: [45, 78, 30, 25, 11, 00],
      team_scores: ['R', 1, 'R', 2, 'R', 3, 'R', 4, 5, 'R', 6, 7, 8, 'R', 9, 'R', 10, 11, 12, 13, 14, 15],
      opponent_scores: [1, 2, 'R', 3, 'R', 4, 5, 'R', 6, 'R', 7, 8, 'R', 9, 'R', 10, 11, 12, 'R'],
-     final_score: [15, 12]
+     final_score: [15, 12],
+     detailed: {
+      untouched_balls: 4,
+      four_hits: 0,
+      rotational_fault: 0,
+
+      missed_serves: {'Reid': 1},
+      unreturned_serves: {'Holly': 3, 'Rasheda': 3},
+
+      shanked_receives: {'Jacob': 1, 'Madysen': 2, 'Reid': 1},
+      good_receives: {'Holly': 4, 'Madysen': 6, 'Jacob': 4, 'Jose': 9, 'Reid': 1, 'Rasheda': 4},
+      digs: {},
+
+      bad_pass: {},
+      bad_sets: {'Jose': 1, 'Reid': 1, 'Rasheda': 2},
+      doubles: {},
+
+      out_balls: {},
+      into_net: {'Jacob': 1},
+
+      kills: {'Madysen': 2, 'Holly': 2},
+
+      blocks: {},
+
+      net_touches: {},
+      positional_faults: {},
+
+      errors: {},
+      recoveries: {}
+      }
     }
 
 match7: &match7
@@ -232,7 +334,8 @@ match7: &match7
      lineup: [93, 30, 00, 38, 25, 9],
      team_scores: [1, 'R', 2, 3, 4, 5, 6, 7, 8, 9, 'R', 10, 11, 12, 13, 'R', 14, 15, 'R', 16, 17, 18, 19, 20, 21, 'R', 22, 23, 24, 'R', 25],
      opponent_scores: [1, 2, 3, 'R', 4, 5, 6, 7, 8, 9, 10, 'R', 11, 'R', 12, 'R', 13, 'R', 14, 15, 16, 17, 18, 19, 20, 21, 'R'],
-     final_score: [25, 21]
+     final_score: [25, 21],
+     detailed:
     }
   - {
      game: 2,
@@ -242,7 +345,8 @@ match7: &match7
      lineup: [45, 00, 38, 78, 30, 93],
      team_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 7, 8, 9, 'R', 10, 'R', 11, 12, 13, 'R', 14, 'R', 15, 'R'],
      opponent_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 7, 8, 9, 'R', 10, 11, 'R', 12, 13, 'R', 14, 15, 16, 17, 18, 'R', 19, 'R', 20, 21, 'R', 22, 'R', 23, 24, 25],
-     final_score: [17, 25]
+     final_score: [17, 25],
+     detailed:
     }
   - {
      game: 3,
@@ -252,7 +356,8 @@ match7: &match7
      lineup: [78, 30, 93, 9, 25, 45],
      team_scores: ['R', 1, 'R', 2, 'R', 3, 4, 5, 'R'],
      opponent_scores: [1, 2, 3, 4, 5, 6, 'R', 7, 8, 'R', 9, 10, 11, 12, 13, 'R', 14, 15],
-     final_score: [5, 15]
+     final_score: [5, 15],
+     detailed:
     }
 
 match8: &match8
@@ -265,7 +370,8 @@ match8: &match8
      lineup: [9, 00, 38, 78, 11, 25],
      team_scores: [1, 'R', 2, 'R', 3, 'R', 4, 5, 6, 7, 8, 9, 'R', 10, 11, 12, 'R', 13, 'R', 14, 'R'],
      opponent_scores: [1, 2, 3, 4, 5, 6, 'R', 7, 'R', 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 16, 17, 18, 19, 20, 21, 'R', 22, 23, 24, 'R', 25],
-     final_score: [14, 25]
+     final_score: [14, 25],
+     detailed:
     }
   - {
      game: 2,
@@ -275,7 +381,8 @@ match8: &match8
      lineup: [00, 30, 93, 29, 78, 45],
      team_scores: [1, 2, 3, 'R', 4, 'R', 5, 6, 7, 'R', 8, 'R', 9, 'R', 10, 'R', 11, 'R', 12, 'R', 13, 14, 'R', 15, 16, 'R', 17, 18, 19, 20, 'R', 21, 'R', 22, 23, 24, 'R', 25, 'R', 26, 'R', 27, 'R'],
      opponent_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 'R', 7, 8, 'R', 9, 'R', 10, 11, 12, 'R', 13, 'R', 14, 'R', 15, 16, 'R', 17, 'R', 18, 19, 'R', 20, 21, 'R', 22, 23, 'R', 24, 'R', 25, 'R', 26, 'R', 27, 28, 29],
-     final_score: [27, 29]
+     final_score: [27, 29],
+     detailed:
     }
   - {
      game: 3,
@@ -285,7 +392,8 @@ match8: &match8
      lineup: [11, 25, 29, 00, 38, 93],
      team_scores: [1, 'R', 2, 3, 'R', 4, 'R', 5, 'R', 6, 7, 'R', 8, 'R', 9, 'R'],
      opponent_scores: [1, 2, 'R', 3, 'R', 4, 5, 6, 7, 'R', 8, 'R', 9, 10, 11, 12, 'R', 13, 14, 'R', 15],
-     final_score: [9, 15]
+     final_score: [9, 15],
+     detailed:
     }
 
 match9: &match9
@@ -298,7 +406,8 @@ match9: &match9
      lineup: [9, 78, 38, 00, 30, 25],
      team_scores: [1, 2, 'R', 3, 'R', 4, 'R', 5, 6, 'R', 7, 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 16, 17, 'R', 18, 19, 'R', 20, 21, 22, 23, 'R', 24, 25],
      opponent_scores: [1, 2, 3, 'R', 4, 5, 'R', 6, 7, 'R', 8, 'R', 9, 10, 'R', 11, 12, 'R', 13, 14, 15, 16, 17, 18, 19, 'R', 20, 'R', 21, 22, 23, 'R'],
-     final_score: [25, 23]
+     final_score: [25, 23],
+     detailed:
     }
   - {
      game: 2,
@@ -308,7 +417,8 @@ match9: &match9
      lineup: [23, 11, 00, 45, 93, 38],
      team_scores: [1, 'R', 2, 3, 4, 5, 'R', 6, 'R', 7, 'R', 8, 'R', 9, 10, 11, 'R', 12, 13, 'R', 14, 15, 16, 'R', 17, 18, 19, 'R'],
      opponent_scores: [1, 'R', 2, 'R', 3, 4, 5, 6, 7, 'R', 8, 9, 10, 'R', 11, 12, 13, 14, 'R', 15, 'R', 16, 17, 'R', 18, 19, 'R', 20, 21, 22, 'R', 23, 24, 25],
-     final_score: [19, 25]
+     final_score: [19, 25],
+     detailed:
     }
   - {
      game: 3,
@@ -318,7 +428,8 @@ match9: &match9
      lineup: [93, 9, 78, 30, 23, 11],
      team_scores: ['R', 1, 'R', 2, 3, 4, 5, 6, 'R', 7, 'R', 8, 9, 10, 'R', 11, 12, 'R'],
      opponent_scores: [1, 2, 3, 'R', 4, 'R', 5, 'R', 6, 'R', 7, 8, 9, 10, 11, 12, 13, 'R', 14, 15],
-     final_score: [12, 15]
+     final_score: [12, 15],
+     detailed:
     }
 
 match10: &match10
@@ -331,7 +442,8 @@ match10: &match10
      lineup: [25, 29, 00, 45, 93, 11],
      team_scores: [1, 'R', 2, 3, 'R', 4, 'R', 5, 6, 7, 8, 9, 'R', 10, 'R', 11, 12, 'R', 13, 14, 15, 16, 17, 18, 'R', 19, 'R', 20, 'R'],
      opponent_scores: [1, 2, 'R', 3, 'R', 4, 5, 'R', 6, 7, 8, 9, 10, 11, 12, 'R', 13, 14, 'R', 15, 16, 'R', 17, 18, 19, 'R', 20, 21, 'R', 22, 23, 'R', 24, 25],
-     final_score: [20, 25]
+     final_score: [20, 25],
+     detailed:
     }
   - {
      game: 2,
@@ -341,7 +453,8 @@ match10: &match10
      lineup: [30, 25, 38, 78, 9, 93],
      team_scores: [1, 'R', 2, 3, 'R', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 'R', 15, 'R', 16, 17, 'R', 18, 19, 20, 'R', 21, 'R', 22, 'R', 23, 'R'],
      opponent_scores: [1, 2, 'R', 3, 4, 5, 'R', 6, 7, 8, 'R', 9, 10, 'R', 11, 12, 13, 14, 15, 16, 17, 'R', 18, 19, 'R', 20, 21, 'R', 22, 23, 'R', 24, 25],
-     final_score: [23, 25]
+     final_score: [23, 25],
+     detailed:
     }
   - {
      game: 3,
@@ -351,7 +464,8 @@ match10: &match10
      lineup: [93, 29, 00, 45, 78, 11],
      team_scores: [1, 'R', 2, 3, 4, 5, 6, 'R', 7, 8, 9, 10, 11, 12, 'R', 13, 14, 15],
      opponent_scores: ['R', 1, 2, 'R', 3, 'R', 4, 5, 'R'],
-     final_score: [15, 5]
+     final_score: [15, 5],
+     detailed:
     }
 
 matches:

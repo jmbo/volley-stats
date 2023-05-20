@@ -22,10 +22,20 @@ class VolleyRoster(object):
 
         return ""
 
+    def get_player_num(self, name : str) -> int:
+        """
+        Finds a player's number from their given name.
+        """
+        for player in self.players:
+            if player.name == name:
+                return int(player.number)
+
+        return -1
+
 
 class VolleyPlayer(object):
     '''Class representing a volleyball player keeping stats and records.
-
+    TODO: How to interpret jersey numbers (as string or as an int)
     '''
 
     def __init__(self, name : str, gender : str, status : str, number : str) -> None:

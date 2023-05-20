@@ -1,7 +1,8 @@
 '''Volleyball Stats module'''
-from typing import List, Dict, Union, Tuple
+from typing import List, Dict, Tuple, TypedDict, Optional
 
 from operator import add
+from .volley_player import VolleyRoster
 
 PLUS  = 0
 MINUS = 1
@@ -11,6 +12,30 @@ MINUS = 1
 # array of front row stats
 
 # all stats per player per position
+class DetailStatsType(TypedDict):
+    """
+    Typing class for Dictionary structure received from parsing the Volleyball YAML info sheet
+    for detailed statistics
+    """
+    untouched_balls     : int
+    rotational_fault    : int
+    missed_serves       : Dict[str, int]
+    unreturned_serves   : Dict[str, int]
+    shanked_receives    : Dict[str, int]
+    good_receives       : Dict[str, int]
+    digs                : Dict[str, int]
+    bad_pass            : Dict[str, int]
+    bad_sets            : Dict[str, int]
+    doubles             : Dict[str, int]
+    out_balls           : Dict[str, int]
+    into_net            : Dict[str, int]
+    kills               : Dict[str, int]
+    blocks              : Dict[str, int]
+    net_touches         : Dict[str, int]
+    positional_faults   : Dict[str, int]
+    errors              : Dict[str, int]
+    recoveries          : Dict[str, int]
+    roster              : VolleyRoster
 
 class PlayerStats():
     ''' Class representing Player Statistics kept throughout kept VolleyStats
@@ -41,6 +66,28 @@ class PlayerStats():
 
         self.points_per_game  : float   = 0
         self.points_per_serve : float   = 0
+
+        self.total_detailed_games : int    = 0
+
+        self.missed_serves     : int    = 0     # objective stat
+        self.unreturned_serves : int    = 0     # objective stat
+
+        self.shanked_receives  : int    = 0
+        self.good_receives     : int    = 0
+        self.digs              : int    = 0
+
+        self.bad_pass          : int    = 0
+        self.bad_sets          : int    = 0
+        self.doubles           : int    = 0     # objective stat
+
+        self.out_balls         : int    = 0     # objective stat
+        self.into_net          : int    = 0
+        self.kills             : int    = 0
+        self.blocks            : int    = 0
+        self.net_touches       : int    = 0     # objective stat
+        self.positional_faults : int    = 0
+        self.errors            : int    = 0
+        self.recoveries        : int    = 0
 
     def __add__(self, other: "PlayerStats") -> "PlayerStats":
 
@@ -105,6 +152,9 @@ class PlayerStats():
 
         self.pm_stats[side] += points
 
+    def add_details(self, details: DetailStatsType) -> None:
+        pass
+
 
 class VolleyStats():
     ''' Class representing all Volleyball Statistics kept for games and/or matches.
@@ -117,7 +167,7 @@ class VolleyStats():
     SEASON      = 2
     ALL_TIME    = 3
 
-    def __init__(self, lineup : Union[List[int], None] = None) -> None:
+    def __init__(self, lineup : Optional[List[int]] = None) -> None:
         self.back_row_stats  : Dict[Tuple[int, int, int], List[int]] = {}
         self.front_row_stats : Dict[Tuple[int, int, int], List[int]] = {}
         self.player_stats : Dict[int, PlayerStats]   = {}
@@ -125,6 +175,9 @@ class VolleyStats():
         self.final_team_score = 0
         self.final_oppo_score = 0
         self.won = False
+
+        self.untouched_balls  = 0
+        self.rotational_fault = 0
 
         self.stats_type = VolleyStats.GAME
         self.valid      = False
@@ -200,6 +253,28 @@ class VolleyStats():
             self.player_stats[rotation[0]].served_scores += scores
             self.player_stats[rotation[0]].serve_runs.append(score)
             self.player_stats[rotation[0]].total_serves += 1
+
+    def add_details(self, stats: DetailStatsType) -> None:
+        """
+        Function adds detailed stats recorded by hand from video review to game and player stats
+        """
+        if self.stats_type != VolleyStats.GAME:
+            raise TypeError('Detailed stats can only be added to Volleyball Games')
+
+        self.untouched_balls    = stats['untouched_balls']
+        self.rotational_fault   = stats['rotational_fault']
+
+        roster = stats['roster']
+        for stat, val in stats.items():
+            if isinstance(val, dict):
+                for player, count in val.items():
+                    num = roster.get_player_num(player)
+                    if num == -1 or num not in list(self.player_stats.keys()):
+                        raise ValueError(f'{player} player not found for on Game')
+                    setattr(self.player_stats[num], stat, count)
+
+        for player, _ in self.player_stats.items():
+            self.player_stats[player].total_detailed_games += 1
 
     def finish_game(self, full : bool) -> None:
         '''At the end of each game calculate remaining stats for each player after all points are

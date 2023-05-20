@@ -8,13 +8,15 @@
 ## check serve alternates between games -- warn if otherwise
 ## coed games, check lineup alternates between girl/boy
 
-from typing import List, TypedDict, Union
+from typing import List, Dict, TypedDict, Union, Optional
 
 from .volley_player import VolleyRoster
-from .volley_stats import VolleyStats, PLUS, MINUS
+from .volley_stats import VolleyStats, DetailStatsType, PLUS, MINUS
 
 class VolleyGameType(TypedDict):
-    "Typing class for Dictionary structure received from parsing the Volleyball YAML info sheet"
+    """
+    Typing class for Dictionary structure received from parsing the Volleyball YAML info sheet
+    """
     lineup          : List[int]
     team_scores     : List[Union[str, int]]
     opponent_scores : List[Union[str, int]]
@@ -22,6 +24,8 @@ class VolleyGameType(TypedDict):
     include         : bool
     full            : bool
     game            : int
+    final_score     : List[int]
+    detailed        : Optional[DetailStatsType]
 
 class VolleyGame():
     '''Class representing a volleyball game keeping stats and records.
@@ -29,7 +33,7 @@ class VolleyGame():
     '''
     total_court_pos = 6
 
-    def __init__(self, game : VolleyGameType) -> None:
+    def __init__(self, game : VolleyGameType, roster : VolleyRoster) -> None:
         self.lineup      = game['lineup']
         self.team_scores = game['team_scores']
         self.oppo_scores = game['opponent_scores']
@@ -37,11 +41,18 @@ class VolleyGame():
         self.include     = game['include']
         self.full        = game['full']
         self.game        = game['game']
+
         self.game_stats  = VolleyStats(self.lineup)
 
         # calculate stats if games is to be included in stats
         if self.include:
             self._calc_game_stats()
+
+        # add details to stats
+        detailed_stats = game.get('detailed')
+        if detailed_stats:
+            detailed_stats['roster'] = roster
+            self.game_stats.add_details(detailed_stats)
 
     def _calc_game_stats(self) -> None:
         '''Calculates game stats for this game.
@@ -125,10 +136,16 @@ class VolleyMatch(object):
             stats       ()
 
     '''
-    def __init__(self, oppo: str) -> None:
+    _counter = 0
+
+    def __init__(self, oppo : Dict[str, Union[str, int]], roster: VolleyRoster) -> None:
         self.opponent                = oppo
+        self.roster                  = roster
         self.games: List[VolleyGame] = []
         self.match_stats             = VolleyStats()
+
+        self.match_num = self._counter + 1
+        VolleyMatch._counter += 1
 
     def add_game(self, game : VolleyGameType)  -> None:
         '''add_game() adds a game to the class instance.
@@ -146,7 +163,7 @@ class VolleyMatch(object):
 
                 full        (bool): indicates whether this game was played to the end of a reg set
         '''
-        self.games.append(VolleyGame(game))
+        self.games.append(VolleyGame(game, self.roster))
         # add last added game's stats to match stats
         self.match_stats += self.games[-1].game_stats
 

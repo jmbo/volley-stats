@@ -5,6 +5,7 @@ import yaml
 
 from volley.volley_match import VolleyMatch, VolleySeason
 from volley.volley_player import VolleyRoster
+from volley.volley_report import VolleyReportPDF, VolleyReportText
 
 # print("____menu____")
 volley_seasons = []
@@ -29,7 +30,7 @@ volley_seasons.append(VolleySeason(season['league'], season['season'], season['y
 for match in season['matches']:
     if match:
         # create Volleyball Match and add game info
-        volley_match = VolleyMatch(match[0]['opponent'])
+        volley_match = VolleyMatch(match[0]['opponent'], roster)
         for i in range(1, len(match)):
             volley_match.add_game(match[i])
         # add match to the volley season
@@ -55,7 +56,7 @@ volley_seasons.append(VolleySeason(season['league'], season['season'], season['y
 for match in season['matches']:
     if match:
         # create Volleyball Match and add game info
-        volley_match = VolleyMatch(match[0]['opponent'])
+        volley_match = VolleyMatch(match[0]['opponent'], roster)
         for i in range(1, len(match)):
             volley_match.add_game(match[i])
         # add match to the volley season
@@ -79,7 +80,7 @@ volley_seasons.append(VolleySeason(season['league'], season['season'], season['y
 for match in season['matches']:
     if match:
         # create Volleyball Match and add game info
-        volley_match = VolleyMatch(match[0]['opponent'])
+        volley_match = VolleyMatch(match[0]['opponent'], roster)
         for i in range(1, len(match)):
             volley_match.add_game(match[i])
         # add match to the volley season
@@ -88,9 +89,16 @@ for match in season['matches']:
 #### *************** IMPORT FINISHED **************** ####
 
 # volley_season.print_match(0)
-print(volley_seasons[0])
-print(volley_seasons[1])
-print(volley_seasons[2])
+# print(volley_seasons[0])
+# print(volley_seasons[1])
+# print(volley_seasons[2])
+
+# report = VolleyReportPDF()
+# report.add_match()
+
+txt_report = VolleyReportText()
+print(txt_report.add_match(volley_seasons[2].matches[0]))
+
 
 # # # TODO: how to correctly parse the holes ?? -- look at match 2
 
