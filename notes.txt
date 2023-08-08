@@ -77,9 +77,9 @@ Serve Runs:
 ******************************************************************************************|
    ---------- NET ----------     ---------- NET ----------     ---------- NET ----------  |
    _                       _     _                       _     _                       _  |
-  | Madysen Madysen Madysen |   | Madysen Madysen Madysen |   | Madysen Madysen Madysen |
-  |                         |   |                         |   |                         |
-  |_PApple Madysen    Ian  _|   |_Pineapp Pineapp Pineapp_|   |_Pineapp Pineapp Pineapp_|
+  | Madysen Madysen Madysen |   | Madysen Madysen Madysen |   | Madysen Madysen Madysen | |
+  |                         |   |                         |   |                         | |
+  |_PApple Madysen    Ian  _|   |_Pineapp Pineapp Pineapp_|   |_Pineapp Pineapp Pineapp_| |
 
 ----- Name ----| Total | T Det || Serve | Miss  |  Out  | Into | Bad  | Net T  | Errors |
                | Games | Games || Rots. | Serve | Balls | Net  | Pass | (Tot.) | (Tot.) |
