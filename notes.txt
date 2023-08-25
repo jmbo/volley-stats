@@ -81,19 +81,19 @@ Serve Runs:
   |                         |   |                         |   |                         | |
   |_PApple Madysen    Ian  _|   |_Pineapp Pineapp Pineapp_|   |_Pineapp Pineapp Pineapp_| |
 
------ Name ----| Total | T Det || Serve | Miss  |  Out  | Into | Bad  | Net T  | Errors |
-               | Games | Games || Rots. | Serve | Balls | Net  | Pass | (Tot.) | (Tot.) |
-===============+=======+=================+===========+==========+==========
-(XX) Pineapple |
+----- Name -----| Total | T Det || Serve | Miss  |  Out  | Into | Bad  | Net T  | Errors |
+                | Games | Games || Rots. | Serve | Balls | Net  | Pass | (Tot.) | (Tot.) |
+================+=======+=======++=======+=======+=======+======+======+========+========+
+(XX) Pineapple  | 10000 | 10000 || 10000 | 10000 | 10000 | 1000 | 1000 | 100000 | 100000 |
 
------ Name ----| Total | Serve || Unret | Recov |  Pts/ | Pts/ |  +/-  |
-               | Games | Rots. || Serve |       | Serve | Game | Stats |
-===============+=======+=================+===========+==========+==========
-(XX) Pineapple |
+----- Name -----| Total | Serve || Unret | Recov |  Pts/ | Pts/ |  +/-  |
+                | Games | Rots. || Serve |       | Serve | Game | Stats |
+================+=======+=================+===========+==========+==========
+(XX) Pineapple  |
 
 ----- Name ----||                  % (Normalized)                 |   % (Normalized)  |
                ||   RB      RF      CF      LF      LB      CB    |    BR   |    FR   |
-===============+========+=======+=======+=======+=======+=======+==========+==========
+===============+========+=======+=======+=======+=======+=======+==========+==========+
 (XX) Pineapple |
 
 

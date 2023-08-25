@@ -70,6 +70,9 @@ class VolleyReportText():
         msg += self._create_game_scores(match.games)
         msg.append('')
 
+        msg += self._create_stats1(match)
+        msg.append('')
+
         return '\n'.join(msg)
 
     def _create_game_lineups(self, lineups : List[List[int]], roster : VolleyRoster) -> List[str]:
@@ -120,6 +123,35 @@ class VolleyReportText():
 
     def _create_game_serve_runs(self, games : List[VolleyGame]) -> List[str]:
         msg = ['Serve Runs:']
+        return msg
+
+    def _create_stats1(self, match : VolleyMatch) -> List[str]:
+        msg = []
+
+        msg_str = '----- Name -----'
+        msg_str += '| Total | T Det || Serve | Miss  |  Out  | Into | Bad  | Net T  | Errors |'
+        msg.append(msg_str)
+        msg_str = ' ' * 16
+        msg_str += '| Games | Games || Rots. | Serve | Balls | Net  | Pass | (Tot.) | (Tot.) |'
+        msg.append(msg_str)
+        msg_str = '================'
+        msg_str += '+=======+=======++=======+=======+=======+======+======+========+========+'
+        msg.append(msg_str)
+
+        for player, stats in match.match_stats.player_stats.items():
+            msg_str = f'({str(player).rjust(2)}) {match.roster.get_player_name(player)}'.ljust(16)
+            msg_str += '| '  + str(stats.total_games_played).rjust(5) + ' '
+            msg_str += '| '  + str(stats.total_detailed_games).rjust(5) + ' '
+            msg_str += '|| ' + str(stats.total_serves).rjust(5) + ' '
+            msg_str += '| '  + str(stats.missed_serves).rjust(5) + ' '
+            msg_str += '| '  + str(stats.out_balls).rjust(5) + ' '
+            msg_str += '| '  + str(stats.into_net).rjust(4) + ' '
+            msg_str += '| '  + str(stats.bad_pass).rjust(4) + ' '
+            msg_str += '| '  + str(stats.net_touches).rjust(6) + ' '
+            msg_str += '| '  + str(stats.errors).rjust(6) + ' |'
+
+            msg.append(msg_str)
+
 
 
         return msg
