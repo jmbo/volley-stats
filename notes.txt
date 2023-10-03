@@ -81,6 +81,8 @@ Serve Runs:
   |                         |   |                         |   |                         | |
   |_PApple Madysen    Ian  _|   |_Pineapp Pineapp Pineapp_|   |_Pineapp Pineapp Pineapp_| |
 
+
+       16           7        7        7      7       7       6      6       8        8
 ----- Name -----| Total | T Det || Serve | Miss  |  Out  | Into | Bad  | Net T  | Errors |
                 | Games | Games || Rots. | Serve | Balls | Net  | Pass | (Tot.) | (Tot.) |
 ================+=======+=======++=======+=======+=======+======+======+========+========+
@@ -96,6 +98,11 @@ Serve Runs:
 ===============+========+=======+=======+=======+=======+=======+==========+==========+
 (XX) Pineapple |
 
+
++----------------+---------+---------+---------+---------+---------+--------+--------+----------+----------+
+| Name           |   Total |   T Det |   Serve |    Miss |     Out |   Into |    Bad |    Net T |   Errors |
+|                |   Games |   Games |   Rots. |   Serve |   Balls |    Net |   Pass |   (Tot.) |   (Tot.) |
++================+=========+=========+=========+=========+=========+========+========+==========+==========+
 
 
 

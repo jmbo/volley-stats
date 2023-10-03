@@ -2,6 +2,7 @@
 Module to Generate Volleyball PDF Reports of Game/Match/Season Stats
 """
 from typing import List, Dict, Tuple, TypedDict, Optional
+import tabulate
 
 # from reportlab.pdfgen import canvas
 # from reportlab.pdfbase.ttfonts import TTFont
@@ -72,6 +73,10 @@ class VolleyReportText():
 
         msg += self._create_stats1(match)
         msg.append('')
+        msg += self._create_stats2(match)
+        msg.append('')
+        msg += self._create_stats3(match)
+        msg.append('')
 
         return '\n'.join(msg)
 
@@ -128,30 +133,85 @@ class VolleyReportText():
     def _create_stats1(self, match : VolleyMatch) -> List[str]:
         msg = []
 
-        msg_str = '----- Name -----'
-        msg_str += '| Total | T Det || Serve | Miss  |  Out  | Into | Bad  | Net T  | Errors |'
-        msg.append(msg_str)
-        msg_str = ' ' * 16
-        msg_str += '| Games | Games || Rots. | Serve | Balls | Net  | Pass | (Tot.) | (Tot.) |'
-        msg.append(msg_str)
-        msg_str = '================'
-        msg_str += '+=======+=======++=======+=======+=======+======+======+========+========+'
-        msg.append(msg_str)
+        tabulate.MIN_PADDING = 0
+        headers = ['Name', 'Total Games', 'T Det Games', 'Serve Rots.', 'Miss Serve', 'Out Balls',
+                   'Into Net', 'Bad Pass', 'Net T (Tot.)', 'Errors (Tot.)']
+        widths = [14, 5, 5, 5, 5, 5, 4, 4, 6, 6]
+        align  = ["left"] + ["right"] * 9
+        data   = []
 
         for player, stats in match.match_stats.player_stats.items():
-            msg_str = f'({str(player).rjust(2)}) {match.roster.get_player_name(player)}'.ljust(16)
-            msg_str += '| '  + str(stats.total_games_played).rjust(5) + ' '
-            msg_str += '| '  + str(stats.total_detailed_games).rjust(5) + ' '
-            msg_str += '|| ' + str(stats.total_serves).rjust(5) + ' '
-            msg_str += '| '  + str(stats.missed_serves).rjust(5) + ' '
-            msg_str += '| '  + str(stats.out_balls).rjust(5) + ' '
-            msg_str += '| '  + str(stats.into_net).rjust(4) + ' '
-            msg_str += '| '  + str(stats.bad_pass).rjust(4) + ' '
-            msg_str += '| '  + str(stats.net_touches).rjust(6) + ' '
-            msg_str += '| '  + str(stats.errors).rjust(6) + ' |'
+            fmt = [f'({str(player).rjust(2)}) {match.roster.get_player_name(player)}']
+            fmt.append(stats.total_games_played)
+            fmt.append(stats.total_detailed_games)
+            fmt.append(stats.total_serves)
+            fmt.append(stats.missed_serves)
+            fmt.append(stats.out_balls)
+            fmt.append(stats.into_net)
+            fmt.append(stats.bad_pass)
+            fmt.append(stats.net_touches)
+            fmt.append(stats.errors)
 
-            msg.append(msg_str)
+            data.append(fmt)
 
+        # "pretty"
+        # "fancy_grid"
+        msg = tabulate.tabulate(data, headers=headers, tablefmt="fancy_grid",
+                       maxcolwidths=widths, maxheadercolwidths=widths, colalign=align
+                       ).split('\n')
 
+        return msg
+
+    def _create_stats2(self, match : VolleyMatch) -> List[str]:
+        msg = []
+
+        tabulate.MIN_PADDING = 0
+        headers = ['Name', 'Total Games', 'Serve Rots.', 'Unret Serv', 'Recov', 'Pts/ Serve',
+                   'Pts/ Game', '+/- Stats']
+        widths = [14, 5, 5, 5, 5, 5, 4, 7]
+        align  = ["left"] + ["right"] * 6 + ["center"]
+        data   = []
+
+        for player, stats in match.match_stats.player_stats.items():
+            fmt = [f'({str(player).rjust(2)}) {match.roster.get_player_name(player)}']
+            fmt.append(stats.total_games_played)
+            # fmt.append(stats.total_detailed_games)
+            fmt.append(stats.total_serves)
+            fmt.append(stats.unreturned_serves)
+            fmt.append(stats.recoveries)
+            fmt.append(stats.points_per_serve)
+            fmt.append(stats.points_per_game)
+            fmt.append(f'+{stats.pm_stats[0]:2}/{stats.pm_stats[1]:2}')
+
+            data.append(fmt)
+
+        # "pretty"
+        # "fancy_grid"
+        # "presto"
+        msg = tabulate.tabulate(data, headers=headers, tablefmt="presto",
+                       maxcolwidths=widths, maxheadercolwidths=widths, colalign=align,
+                       floatfmt='.2f'
+                       ).split('\n')
+        return msg
+
+    def _create_stats3(self, match : VolleyMatch) -> List[str]:
+        msg = []
+
+        tabulate.MIN_PADDING = 0
+        headers = ['Name', '% (Normalized)\n   RB      RF      CF      LF      LB      CB    ',
+                   '% (Normalized)\n    BR   |    FR   ']
+        align  = ["left"] + ["center"] * 2
+        data   = []
+
+        for player, stats in match.match_stats.player_stats.items():
+            fmt = [f'({str(player).rjust(2)}) {match.roster.get_player_name(player)}']
+            fmt.append(stats.rb_pm)
+            fmt.append(stats.front_row_pm)
+
+            data.append(fmt)
+
+        # "pretty"
+        # "fancy_grid"
+        msg = tabulate.tabulate(data, headers, tablefmt="presto", colalign=align).split('\n')
 
         return msg
